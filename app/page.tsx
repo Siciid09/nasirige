@@ -16,12 +16,12 @@ export default function Home() {
   const [cart, setCart] = useState<any[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // --- COUNTDOWN LOGIC (State kept but hidden from view per request) ---
+  // --- COUNTDOWN LOGIC ---
   const [timeLeft, setTimeLeft] = useState({ months: 0, days: 0, hours: 0 });
 
   useEffect(() => {
     const calculateTimeLeft = () => {
-      const targetDate = new Date('2026-05-15T00:00:00'); // Target: May 15, 2026
+      const targetDate = new Date('2026-05-15T00:00:00'); 
       const now = new Date();
       const difference = targetDate.getTime() - now.getTime();
 
@@ -31,37 +31,21 @@ export default function Home() {
         let days = targetDate.getDate() - now.getDate();
         let hours = targetDate.getHours() - now.getHours();
 
-        // Adjust negative hours (borrow from days)
-        if (hours < 0) {
-          hours += 24;
-          days--;
-        }
-        // Adjust negative days (borrow from months)
+        if (hours < 0) { hours += 24; days--; }
         if (days < 0) {
-          // Get number of days in the previous month
           const previousMonth = new Date(targetDate.getFullYear(), targetDate.getMonth(), 0);
           days += previousMonth.getDate();
           months--;
         }
-        // Adjust negative months (borrow from years)
-        if (months < 0) {
-          months += 12;
-          years--;
-        }
-
-        // Combine years into total months for the display
+        if (months < 0) { months += 12; years--; }
         const totalMonths = (years * 12) + months;
 
-        setTimeLeft({
-          months: totalMonths,
-          days: days,
-          hours: hours,
-        });
+        setTimeLeft({ months: totalMonths, days: days, hours: hours });
       }
     };
 
     calculateTimeLeft();
-    const timer = setInterval(calculateTimeLeft, 1000); // Update every second
+    const timer = setInterval(calculateTimeLeft, 1000);
     return () => clearInterval(timer);
   }, []);
 
@@ -91,7 +75,7 @@ export default function Home() {
 
   useEffect(() => {
     AOS.init({ once: true, offset: 50, duration: 600 });
-    trackVisit();
+    // trackVisit();
 
     const cursorDot = document.getElementById('cursor-dot');
     const cursorOutline = document.getElementById('cursor-outline');
@@ -129,10 +113,7 @@ export default function Home() {
         .cursor-dot { width: 8px; height: 8px; background-color: #4189DD; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s; }
         .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(65, 137, 221, 0.5); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: left 0.1s, top 0.1s; }
         
-        /* Timeline Wavy Lines */
-        .timeline-wavy-vertical { position: absolute; left: 50%; transform: translateX(-50%); top: 0; bottom: 0; width: 20px; background-image: url("data:image/svg+xml,%3Csvg width='20' height='100' viewBox='0 0 20 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0 Q 20 25 10 50 Q 0 75 10 100' stroke='%23e2e8f0' stroke-width='2' fill='none'/%3E%3C/svg%3E"); background-repeat: repeat-y; }
-        
-        /* Horizontal Wavy Line - Centered Vertically */
+        /* Desktop Horizontal Wavy Line - Centered Vertically */
         .timeline-wavy-horizontal { position: absolute; top: 50%; transform: translateY(-50%); left: 0; right: 0; height: 20px; background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q 25 0 50 10 Q 75 20 100 10' stroke='%23e2e8f0' stroke-width='2' fill='none'/%3E%3C/svg%3E"); background-repeat: repeat-x; }
 
         .glass-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
@@ -166,6 +147,8 @@ export default function Home() {
             <div className="text-[28px] font-bold tracking-[1px] cursor-pointer font-header" onClick={() => window.scrollTo(0,0)}>
                 Nasir Ige.
             </div>
+            
+            {/* DESKTOP NAV */}
             <nav className="hidden md:flex items-center gap-[35px]">
               <ul className="flex gap-[35px] list-none m-0">
                 {['About', 'Advisors', 'Issues', 'Journey', 'News'].map((item) => (
@@ -176,7 +159,7 @@ export default function Home() {
                     </li>
                 ))}
               </ul>
-              {/* CART ICON */}
+              {/* CART ICON DESKTOP */}
               <div className="relative group cursor-pointer" onClick={() => setIsCartOpen(!isCartOpen)}>
                 <i className="fa-solid fa-cart-shopping text-xl hover:text-[#4189DD] transition"></i>
                 {cart.length > 0 && (
@@ -208,10 +191,33 @@ export default function Home() {
                 )}
               </div>
             </nav>
-            <div className="md:hidden cursor-pointer flex flex-col gap-1.5" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-               <div className="w-[30px] h-[3px] bg-white rounded-[2px]"></div>
-               <div className="w-[30px] h-[3px] bg-white rounded-[2px]"></div>
-               <div className="w-[30px] h-[3px] bg-white rounded-[2px]"></div>
+
+            {/* MOBILE NAV CONTROLS */}
+            <div className="md:hidden flex items-center gap-6">
+                {/* Mobile Cart Icon */}
+                <div className="relative cursor-pointer" onClick={() => setIsCartOpen(!isCartOpen)}>
+                    <i className="fa-solid fa-cart-shopping text-xl hover:text-[#4189DD] transition"></i>
+                    {cart.length > 0 && (
+                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                            {cart.length}
+                        </span>
+                    )}
+                    {/* MINI CART MOBILE */}
+                    {isCartOpen && (
+                        <div className="absolute top-full right-[-50px] mt-4 w-64 bg-white text-slate-800 shadow-2xl rounded-lg p-4 z-[100] border border-slate-100">
+                             <h4 className="font-bold border-b pb-2 mb-2 text-sm">Your Cart</h4>
+                             <p className="text-xs mb-2">Items: {cart.length}</p>
+                             <Link href="/shop" className="text-[10px] bg-blue-600 text-white px-2 py-1 rounded block text-center">Go to Cart</Link>
+                        </div>
+                    )}
+                </div>
+
+                {/* Hamburger */}
+                <div className="cursor-pointer flex flex-col gap-1.5" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                   <div className="w-[30px] h-[3px] bg-white rounded-[2px]"></div>
+                   <div className="w-[30px] h-[3px] bg-white rounded-[2px]"></div>
+                   <div className="w-[30px] h-[3px] bg-white rounded-[2px]"></div>
+                </div>
             </div>
           </div>
           {isMenuOpen && (
@@ -221,8 +227,8 @@ export default function Home() {
                         {item}
                     </Link>
                 ))}
-                <Link href="/shop" className="text-xl font-header block py-2 flex items-center gap-2">
-                   Shop <span className="bg-blue-600 text-xs px-2 rounded-full">{cart.length}</span>
+                <Link href="/shop" className="text-xl font-header block py-2">
+                   Shop Campaign Merch
                 </Link>
              </div>
           )}
@@ -253,7 +259,7 @@ export default function Home() {
                           Maskax Cusub,<br /> 
                           <span className="text-[#4189DD] italic">Mustaqbal Ifaya</span>
                       </h1>
-                      <svg className="absolute -bottom-8 -left-2 w-[110%] h-[140px] -z-0 pointer-events-none opacity-90" viewBox="0 0 400 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <svg className="absolute -bottom-8 -left-2 w-[110%] h-[140px] -z-0 pointer-events-none opacity-70" viewBox="0 0 400 150" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M10,80 C100,150 180,50 320,90" stroke="#4189DD" strokeWidth="10" strokeLinecap="round" className="snake-line-animated" />
                       </svg>
                   </div>
@@ -289,7 +295,7 @@ export default function Home() {
       <style dangerouslySetInnerHTML={{__html: `
         .separator-line { height: 1px; width: 80%; margin: 10px auto 5px auto; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%); }
       `}} />
-      <section className="py-16 relative overflow-hidden animated-gradient-bg">
+      <section className="py-12 md:py-16 relative overflow-hidden animated-gradient-bg">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
         <div className="container mx-auto px-6 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
             <div className="text-center lg:text-left" data-aos="fade-right">
@@ -300,26 +306,14 @@ export default function Home() {
             
             {/* Cards */}
             <div className="flex gap-3 md:gap-5" data-aos="zoom-in">
-                
-                {/* Month Card */}
                 <div className="glass-card p-6 rounded-xl flex flex-col items-center justify-center w-28 md:w-32 hover:-translate-y-2 transition duration-300">
-                    <span className="block text-4xl md:text-5xl font-bold text-white mb-1 leading-none">
-                      May
-                    </span>
+                    <span className="block text-4xl md:text-5xl font-bold text-white mb-1 leading-none">May</span>
                 </div>
-                
-                {/* Day Card */}
                 <div className="glass-card p-6 rounded-xl flex flex-col items-center justify-center w-28 md:w-32 hover:-translate-y-2 transition duration-300">
-                    <span className="block text-4xl md:text-5xl font-bold text-white mb-1 leading-none">
-                      15
-                    </span>
+                    <span className="block text-4xl md:text-5xl font-bold text-white mb-1 leading-none">15</span>
                 </div>
-                
-                {/* Year Card */}
                 <div className="glass-card p-6 rounded-xl flex flex-col items-center justify-center w-28 md:w-32 hover:-translate-y-2 transition duration-300">
-                    <span className="block text-4xl md:text-5xl font-bold text-white mb-1 leading-none">
-                      2026
-                    </span>
+                    <span className="block text-4xl md:text-5xl font-bold text-white mb-1 leading-none">2026</span>
                 </div>
             </div>
             
@@ -332,7 +326,7 @@ export default function Home() {
       </section>
 
       {/* --- ACTION CARDS --- */}
-      <section className="relative z-20 md:-mt-12 mb-20 pt-12 md:pt-0">
+      <section className="relative z-20 md:-mt-12 mb-12 md:mb-20 pt-12 md:pt-0">
         <div className="container mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="bg-white p-8 shadow-xl rounded-sm border-t-4 border-brand-blue hover:-translate-y-2 transition duration-300"><i className="fa-solid fa-check-to-slot text-3xl text-brand-blue mb-4"></i><h3 className="font-serif font-bold text-lg mb-2">Register to Vote</h3><p className="text-slate-500 text-xs">Make your voice heard.</p></div>
@@ -344,8 +338,8 @@ export default function Home() {
       </section>
 
       {/* --- PRIORITIES GRID --- */}
-      <section className="py-24 bg-white" id="priority">
-         <div className="container mx-auto px-6 text-center mb-16">
+      <section className="py-12 md:py-16 bg-white" id="priority">
+         <div className="container mx-auto px-6 text-center mb-10 md:mb-16">
             <p className="text-brand-somalia uppercase text-xs font-bold tracking-widest mb-2">Our Priority</p>
             <h2 className="text-4xl font-serif font-bold text-brand-dark mb-4">What Somalia <span className="text-brand-somalia italic">Needs</span></h2>
         </div>
@@ -378,7 +372,7 @@ export default function Home() {
       </section>
 
       {/* --- ABOUT --- */}
-      <section className="py-20" id="about">
+      <section className="py-12 md:py-16" id="about">
         <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
             <div className="relative">
                 <div className="bg-gray-200 p-4 pb-24 rounded-sm relative overflow-hidden">
@@ -409,103 +403,172 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- TIMELINE (FIXED ZIG-ZAG ALIGNMENT) --- */}
-      <section className="py-24 bg-white relative">
-        <div className="container mx-auto px-6 text-center mb-16" data-aos="fade-down">
+      {/* --- TIMELINE (SPLIT: MOBILE ZIG-ZAG vs DESKTOP HORIZONTAL) --- */}
+      <section className="py-12 md:py-16 bg-white relative">
+        <div className="container mx-auto px-6 text-center mb-10 md:mb-16" data-aos="fade-down">
              <p className="text-blue-600 uppercase text-xs font-bold tracking-widest mb-2">The Journey</p>
              <h2 className="text-4xl font-serif font-bold text-brand-dark">Legacy of <span className="italic text-blue-600">Leadership</span></h2>
         </div>
         
         <div className="relative max-w-6xl mx-auto">
-             {/* Wavy Line */}
-             <div className="timeline-wavy-vertical lg:hidden"></div>
-             <div className="timeline-wavy-horizontal hidden lg:block"></div>
              
-             {/* FIX: We use 'h-24' (fixed height) for both the Top and Bottom spacers 
-                  in every timeline item. This forces the middle 'Dot' element to 
-                  align perfectly with the center horizontal line.
-             */}
-             <div className="grid grid-cols-1 lg:flex lg:justify-between items-center gap-12 lg:gap-0 relative z-10 w-full">
-                
-                {/* Item 1 (Top) */}
-                <div className="flex flex-col items-center group">
-                   {/* Top Content (Fixed Height Container) */}
-                   <div className="h-24 flex flex-col justify-end items-center mb-4" data-aos="fade-down">
-                       <h3 className="text-lg font-bold text-brand-dark">2012</h3>
-                       <p className="text-slate-600 text-xs mt-1">Restored electricity.</p>
-                   </div>
-                   {/* Dot (Anchor) */}
-                   <div className="w-4 h-4 bg-brand-somalia rounded-full border-4 border-white shadow-lg z-10"></div>
-                   {/* Bottom Content (Fixed Height Container) */}
-                   <div className="h-24 flex flex-col justify-start items-center mt-4" data-aos="fade-up">
-                       <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Infrastructure</span>
-                   </div>
-                </div>
+             {/* =======================
+                 MOBILE TIMELINE (Zig-Zag Vertical)
+                 ======================= */}
+             <div className="lg:hidden relative py-4">
+                 {/* Central Line */}
+                 <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-slate-200 -translate-x-1/2"></div>
+                 
+                 <div className="flex flex-col relative z-10 w-full">
+                    
+                    {/* Item 1: LEFT */}
+                    <div className="flex w-full justify-between items-center mb-8 relative">
+                         {/* Content Left */}
+                         <div className="w-[45%] text-right pr-6" data-aos="fade-right">
+                             <h3 className="text-lg font-bold text-brand-dark">2012</h3>
+                             <p className="text-slate-600 text-xs mt-1">Restored electricity.</p>
+                             <span className="inline-block mt-2 px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Infrastructure</span>
+                         </div>
+                         {/* Dot Center */}
+                         <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-brand-somalia rounded-full border-4 border-white shadow-lg z-20"></div>
+                         {/* Empty Right */}
+                         <div className="w-[45%] pl-6"></div>
+                    </div>
 
-                {/* Item 2 (Bottom) */}
-                <div className="flex flex-col items-center group">
-                   {/* Top Content (Fixed Height Container) */}
-                   <div className="h-24 flex flex-col justify-end items-center mb-4" data-aos="fade-down">
-                       <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Diplomacy</span>
-                   </div>
-                   {/* Dot (Anchor) */}
-                   <div className="w-4 h-4 bg-brand-dark rounded-full border-4 border-white shadow-lg z-10"></div>
-                   {/* Bottom Content (Fixed Height Container) */}
-                   <div className="h-24 flex flex-col justify-start items-center mt-4" data-aos="fade-up">
-                       <h3 className="text-lg font-bold text-brand-dark">2015</h3>
-                       <p className="text-slate-600 text-xs mt-1">Galmudug Dialogue.</p>
-                   </div>
-                </div>
+                    {/* Item 2: RIGHT */}
+                    <div className="flex w-full justify-between items-center mb-8 relative">
+                         {/* Empty Left */}
+                         <div className="w-[45%] pr-6"></div>
+                         {/* Dot Center */}
+                         <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-brand-dark rounded-full border-4 border-white shadow-lg z-20"></div>
+                         {/* Content Right */}
+                         <div className="w-[45%] text-left pl-6" data-aos="fade-left">
+                             <h3 className="text-lg font-bold text-brand-dark">2015</h3>
+                             <p className="text-slate-600 text-xs mt-1">Galmudug Dialogue.</p>
+                             <span className="inline-block mt-2 px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Diplomacy</span>
+                         </div>
+                    </div>
 
-                {/* Item 3 (Top) */}
-                <div className="flex flex-col items-center group">
-                   <div className="h-24 flex flex-col justify-end items-center mb-4" data-aos="fade-down">
-                       <h3 className="text-lg font-bold text-brand-dark">2018</h3>
-                       <p className="text-slate-600 text-xs mt-1">Built 20 schools.</p>
-                   </div>
-                   <div className="w-4 h-4 bg-brand-somalia rounded-full border-4 border-white shadow-lg z-10"></div>
-                   <div className="h-24 flex flex-col justify-start items-center mt-4" data-aos="fade-up">
-                       <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Education</span>
-                   </div>
-                </div>
+                    {/* Item 3: LEFT */}
+                    <div className="flex w-full justify-between items-center mb-8 relative">
+                         <div className="w-[45%] text-right pr-6" data-aos="fade-right">
+                             <h3 className="text-lg font-bold text-brand-dark">2018</h3>
+                             <p className="text-slate-600 text-xs mt-1">Built 20 schools.</p>
+                             <span className="inline-block mt-2 px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Education</span>
+                         </div>
+                         <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-brand-somalia rounded-full border-4 border-white shadow-lg z-20"></div>
+                         <div className="w-[45%] pl-6"></div>
+                    </div>
 
-                 {/* Item 4 (Bottom) */}
-                 <div className="flex flex-col items-center group">
-                   <div className="h-24 flex flex-col justify-end items-center mb-4" data-aos="fade-down">
-                       <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Health</span>
-                   </div>
-                   <div className="w-4 h-4 bg-brand-dark rounded-full border-4 border-white shadow-lg z-10"></div>
-                   <div className="h-24 flex flex-col justify-start items-center mt-4" data-aos="fade-up">
-                       <h3 className="text-lg font-bold text-brand-dark">2021</h3>
-                       <p className="text-slate-600 text-xs mt-1">National Task Force.</p>
-                   </div>
-                </div>
+                    {/* Item 4: RIGHT */}
+                    <div className="flex w-full justify-between items-center mb-8 relative">
+                         <div className="w-[45%] pr-6"></div>
+                         <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-brand-dark rounded-full border-4 border-white shadow-lg z-20"></div>
+                         <div className="w-[45%] text-left pl-6" data-aos="fade-left">
+                             <h3 className="text-lg font-bold text-brand-dark">2021</h3>
+                             <p className="text-slate-600 text-xs mt-1">National Task Force.</p>
+                             <span className="inline-block mt-2 px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Health</span>
+                         </div>
+                    </div>
 
-                {/* Item 5 (Top) */}
-                <div className="flex flex-col items-center group">
-                   <div className="h-24 flex flex-col justify-end items-center mb-4" data-aos="fade-down">
-                       <h3 className="text-lg font-bold text-brand-dark">2024</h3>
-                       <p className="text-slate-600 text-xs mt-1">Launched Campaign.</p>
-                   </div>
-                   <div className="w-4 h-4 bg-brand-somalia rounded-full border-4 border-white shadow-lg z-10"></div>
-                   <div className="h-24 flex flex-col justify-start items-center mt-4" data-aos="fade-up">
-                       <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Leadership</span>
-                   </div>
-                </div>
+                    {/* Item 5: LEFT */}
+                    <div className="flex w-full justify-between items-center relative">
+                         <div className="w-[45%] text-right pr-6" data-aos="fade-right">
+                             <h3 className="text-lg font-bold text-brand-dark">2024</h3>
+                             <p className="text-slate-600 text-xs mt-1">Launched Campaign.</p>
+                             <span className="inline-block mt-2 px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Leadership</span>
+                         </div>
+                         <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-brand-somalia rounded-full border-4 border-white shadow-lg z-20"></div>
+                         <div className="w-[45%] pl-6"></div>
+                    </div>
 
+                 </div>
              </div>
+
+
+             {/* =======================
+                 DESKTOP TIMELINE (Horizontal Wavy)
+                 ======================= */}
+             <div className="hidden lg:block relative w-full">
+                 <div className="timeline-wavy-horizontal"></div>
+                 
+                 <div className="flex justify-between items-center relative z-10 w-full">
+                    
+                    {/* Item 1 (Top) */}
+                    <div className="flex flex-col items-center group">
+                       <div className="h-24 flex flex-col justify-end items-center mb-4" data-aos="fade-down">
+                           <h3 className="text-lg font-bold text-brand-dark">2012</h3>
+                           <p className="text-slate-600 text-xs mt-1">Restored electricity.</p>
+                       </div>
+                       <div className="w-4 h-4 bg-brand-somalia rounded-full border-4 border-white shadow-lg z-10"></div>
+                       <div className="h-24 flex flex-col justify-start items-center mt-4" data-aos="fade-up">
+                           <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Infrastructure</span>
+                       </div>
+                    </div>
+
+                    {/* Item 2 (Bottom) */}
+                    <div className="flex flex-col items-center group">
+                       <div className="h-24 flex flex-col justify-end items-center mb-4" data-aos="fade-down">
+                           <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Diplomacy</span>
+                       </div>
+                       <div className="w-4 h-4 bg-brand-dark rounded-full border-4 border-white shadow-lg z-10"></div>
+                       <div className="h-24 flex flex-col justify-start items-center mt-4" data-aos="fade-up">
+                           <h3 className="text-lg font-bold text-brand-dark">2015</h3>
+                           <p className="text-slate-600 text-xs mt-1">Galmudug Dialogue.</p>
+                       </div>
+                    </div>
+
+                    {/* Item 3 (Top) */}
+                    <div className="flex flex-col items-center group">
+                       <div className="h-24 flex flex-col justify-end items-center mb-4" data-aos="fade-down">
+                           <h3 className="text-lg font-bold text-brand-dark">2018</h3>
+                           <p className="text-slate-600 text-xs mt-1">Built 20 schools.</p>
+                       </div>
+                       <div className="w-4 h-4 bg-brand-somalia rounded-full border-4 border-white shadow-lg z-10"></div>
+                       <div className="h-24 flex flex-col justify-start items-center mt-4" data-aos="fade-up">
+                           <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Education</span>
+                       </div>
+                    </div>
+
+                     {/* Item 4 (Bottom) */}
+                     <div className="flex flex-col items-center group">
+                       <div className="h-24 flex flex-col justify-end items-center mb-4" data-aos="fade-down">
+                           <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Health</span>
+                       </div>
+                       <div className="w-4 h-4 bg-brand-dark rounded-full border-4 border-white shadow-lg z-10"></div>
+                       <div className="h-24 flex flex-col justify-start items-center mt-4" data-aos="fade-up">
+                           <h3 className="text-lg font-bold text-brand-dark">2021</h3>
+                           <p className="text-slate-600 text-xs mt-1">National Task Force.</p>
+                       </div>
+                    </div>
+
+                    {/* Item 5 (Top) */}
+                    <div className="flex flex-col items-center group">
+                       <div className="h-24 flex flex-col justify-end items-center mb-4" data-aos="fade-down">
+                           <h3 className="text-lg font-bold text-brand-dark">2024</h3>
+                           <p className="text-slate-600 text-xs mt-1">Launched Campaign.</p>
+                       </div>
+                       <div className="w-4 h-4 bg-brand-somalia rounded-full border-4 border-white shadow-lg z-10"></div>
+                       <div className="h-24 flex flex-col justify-start items-center mt-4" data-aos="fade-up">
+                           <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-bold rounded">Leadership</span>
+                       </div>
+                    </div>
+
+                 </div>
+             </div>
+
         </div>
       </section>
 
       {/* --- GALLERY --- */}
-      <section className="py-24 bg-brand-dark text-white" id="gallery">
+      <section className="py-12 md:py-16 bg-brand-dark text-white" id="gallery">
         <div className="container mx-auto px-6">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
                 <div data-aos="fade-right">
                     <p className="text-blue-400 uppercase text-xs font-bold tracking-widest mb-2">Our Journey</p>
                     <h2 className="text-4xl font-serif font-bold">Moments of <span className="italic text-blue-400">Unity</span></h2>
                 </div>
-                <a href="#" className="text-xs font-bold tracking-widest border-b border-blue-400 pb-1 hover:text-blue-400 transition mt-6 md:mt-0" data-aos="fade-left">FOLLOW ON INSTAGRAM</a>
+                <a href="#" className="text-xs font-bold tracking-widest border-b border-blue-400 pb-1 hover:text-blue-400 transition mt-6 md:mt-0 text-left md:text-right" data-aos="fade-left">FOLLOW ON INSTAGRAM</a>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 h-auto">
                  <div className="col-span-2 row-span-2 relative group overflow-hidden rounded-sm h-80"><img src="https://nasaige.com/wp-content/uploads/2023/10/WhatsApp-Image-2023-10-27-at-4.53.10-PM-1.jpeg?q=80&w=2089" className="w-full h-full object-cover transition duration-700 group-hover:scale-110 group-hover:opacity-60" /></div>
@@ -523,7 +586,7 @@ export default function Home() {
       </section>
 
       {/* --- QUOTE --- */}
-      <section className="py-32 relative flex items-center justify-center bg-fixed bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?q=80&w=2072')" }}>
+      <section className="py-20 relative flex items-center justify-center bg-fixed bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?q=80&w=2072')" }}>
         <div className="absolute inset-0 bg-black/60"></div>
         <div className="container mx-auto px-6 relative z-10 text-center text-white" data-aos="zoom-in">
             <i className="fa-solid fa-quote-left text-4xl text-blue-400 mb-6 opacity-80"></i>
@@ -533,7 +596,7 @@ export default function Home() {
       </section>
 
       {/* --- ADVISORS --- */}
-      <section className="py-24 bg-white" id="advisors">
+      <section className="py-12 md:py-16 bg-white" id="advisors">
         <div className="container mx-auto px-6">
             <div className="grid md:grid-cols-2 gap-16 items-center">
                 <div>
@@ -559,7 +622,7 @@ export default function Home() {
       </section>
 
       {/* --- CAMPAIGN TRAIL --- */}
-      <section className="py-24 bg-slate-50">
+      <section className="py-12 md:py-16 bg-slate-50">
         <div className="container mx-auto px-6">
             <div className="flex flex-col md:flex-row justify-between items-end mb-12">
                 <div>
@@ -597,7 +660,7 @@ export default function Home() {
       </section>
 
       {/* --- TESTIMONIALS --- */}
-      <section className="py-24 bg-slate-50 overflow-hidden">
+      <section className="py-12 md:py-16 bg-slate-50 overflow-hidden">
         <div className="container mx-auto px-6 text-center mb-12" data-aos="fade-up">
             <p className="text-brand-somalia uppercase text-xs font-bold tracking-widest mb-2">Testimonials</p>
             <h2 className="text-4xl font-serif font-bold text-brand-dark">Codka <span className="italic text-brand-somalia">Shacabka</span></h2>
@@ -616,7 +679,7 @@ export default function Home() {
       </section>
 
       {/* --- MANIFESTO --- */}
-      <section className="py-20 bg-white border-y border-slate-100" id="manifesto">
+      <section className="py-12 md:py-16 bg-white border-y border-slate-100" id="manifesto">
         <div className="container mx-auto px-6">
             <div className="glass-card-dark animated-gradient-bg p-12 rounded-2xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden" data-aos="fade-up">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-brand-somalia rounded-full filter blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2"></div>
@@ -639,7 +702,7 @@ export default function Home() {
       </section>
 
       {/* --- BLOG --- */}
-      <section className="py-24 bg-slate-50" id="blog">
+      <section className="py-12 md:py-16 bg-slate-50" id="blog">
         <div className="container mx-auto px-6">
             <div className="text-center mb-16">
                 <p className="text-blue-600 uppercase text-xs font-bold tracking-widest mb-2">Media & Press</p>
@@ -694,7 +757,7 @@ export default function Home() {
       </section>
 
       {/* --- MARQUEE --- */}
-      <section className="py-16 bg-white border-y border-slate-100 overflow-hidden">
+      <section className="py-12 bg-white border-y border-slate-100 overflow-hidden">
         <div className="container mx-auto px-6 text-center mb-8"><p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Trusted By Media</p></div>
         <div className="relative w-full flex overflow-hidden">
             <div className="flex gap-12 animate-scroll whitespace-nowrap items-center opacity-50 hover:opacity-100 transition duration-500 pr-12">
@@ -716,7 +779,7 @@ export default function Home() {
       </section>
 
       {/* --- SHOP --- */}
-      <section className="py-24 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-6 text-center mb-16">
              <p className="text-blue-600 uppercase text-xs font-bold tracking-widest mb-2">Wear The Change</p>
              <h2 className="text-4xl font-serif font-bold text-brand-dark">Campaign <span className="italic text-blue-600">Store</span></h2>
@@ -727,7 +790,7 @@ export default function Home() {
                     <div className="bg-gray-100 h-64 flex items-center justify-center rounded-lg mb-4 overflow-hidden relative p-6">
                         <img src={prod.i} className="w-full h-full object-contain group-hover:scale-110 transition duration-500" />
                         {prod.b && <div className="absolute top-4 right-4 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">{prod.b}</div>}
-                        <div className="absolute bottom-4 left-0 right-0 text-center opacity-0 group-hover:opacity-100 transition duration-300 transform translate-y-4 group-hover:translate-y-0">
+                        <div className="absolute bottom-4 left-0 right-0 text-center">
                             <button onClick={() => addToCart(prod)} className="bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg hover:bg-blue-600 transition">
                                 ADD TO CART <i className="fa-solid fa-plus ml-1"></i>
                             </button>
@@ -747,7 +810,7 @@ export default function Home() {
       </section>
 
       {/* --- SUBSCRIBE FORM --- */}
-      <section className="bg-blue-600 py-16 relative overflow-hidden">
+      <section className="bg-blue-600 py-12 relative overflow-hidden">
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white opacity-10 rounded-full"></div>
         <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-white opacity-10 rounded-full"></div>
         <div className="container mx-auto px-6 text-center relative z-10">
@@ -761,7 +824,7 @@ export default function Home() {
       </section>
 
       {/* --- FOOTER --- */}
-      <footer className="bg-brand-dark text-slate-300 py-16 border-t border-white/10">
+      <footer className="bg-brand-dark text-slate-300 py-12 border-t border-white/10">
         <div className="container mx-auto px-6 grid md:grid-cols-4 gap-12 mb-16">
             <div>
                 <div className="flex items-center gap-2 mb-6 text-white"><div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold">N</div><span className="text-xl font-serif font-bold">Nasir Ige.</span></div>
