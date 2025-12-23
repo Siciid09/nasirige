@@ -44,6 +44,9 @@ export default function HomeClient({ data }: { data: any }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ months: 0, days: 0, hours: 0 });
 
+  // 🟢 NEW: LIGHTBOX STATE
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+
   useEffect(() => {
     if (!data?.electionDate) return;
     const calculateTimeLeft = () => {
@@ -109,6 +112,23 @@ export default function HomeClient({ data }: { data: any }) {
   };
 
   const addToCart = (product: any) => setCart([...cart, product]);
+
+  // 🟢 LIGHTBOX HANDLERS
+  const closeLightbox = () => setSelectedImageIndex(null);
+  
+  const nextImage = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (selectedImageIndex !== null && data.galleryImages) {
+          setSelectedImageIndex((prev) => (prev! + 1) % data.galleryImages.length);
+      }
+  };
+
+  const prevImage = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (selectedImageIndex !== null && data.galleryImages) {
+          setSelectedImageIndex((prev) => (prev! - 1 + data.galleryImages.length) % data.galleryImages.length);
+      }
+  };
 
   // 🟢 APPLY TITLE LOGIC
   const { main, highlight } = formatHeroTitle(data?.heroTitle);
@@ -426,8 +446,16 @@ export default function HomeClient({ data }: { data: any }) {
                      const rowSpan = isLarge ? 'row-span-2' : '';
                      const height = isLarge ? 'h-80' : 'h-40';
                      return (
-                        <div key={i} className={`${colSpan} ${rowSpan} relative group overflow-hidden rounded-sm ${height}`}>
+                        <div 
+                           key={i} 
+                           onClick={() => setSelectedImageIndex(i)} 
+                           className={`${colSpan} ${rowSpan} relative group overflow-hidden rounded-sm ${height} cursor-pointer`}
+                        >
                             {urlFor(img) && <img src={urlFor(img)!} className="w-full h-full object-cover transition duration-700 group-hover:scale-110 group-hover:opacity-60" />}
+                            <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i className="fa-solid fa-magnifying-glass-plus text-2xl text-white drop-shadow-md"></i>
+                            </div>
                         </div>
                      );
                  })}
@@ -694,6 +722,56 @@ export default function HomeClient({ data }: { data: any }) {
             </div>
         </div>
       </footer>
+
+      {/* 🟢 NEW: FULLSCREEN LIGHTBOX COMPONENT */}
+      {selectedImageIndex !== null && data.galleryImages && (
+          <div 
+            className="fixed inset-0 z-[10000] bg-black/95 flex items-center justify-center p-4 cursor-auto backdrop-blur-md"
+            onClick={closeLightbox}
+          >
+              {/* Close Button */}
+              <button 
+                  onClick={closeLightbox}
+                  className="absolute top-6 right-6 text-white/80 hover:text-white text-4xl z-[10001] transition-transform hover:rotate-90"
+              >
+                  &times;
+              </button>
+
+              {/* Prev Button */}
+              <button 
+                  onClick={prevImage}
+                  className="absolute left-4 md:left-8 text-white/50 hover:text-white text-6xl z-[10001] transition-all hover:scale-110 p-4"
+              >
+                  &#8249;
+              </button>
+
+              {/* Main Image */}
+              <div 
+                  className="relative max-h-screen max-w-screen flex items-center justify-center p-2"
+                  onClick={(e) => e.stopPropagation()} 
+              >
+                  {urlFor(data.galleryImages[selectedImageIndex]) && (
+                      <img 
+                          src={urlFor(data.galleryImages[selectedImageIndex])!} 
+                          className="max-h-[85vh] max-w-[90vw] object-contain shadow-2xl rounded-sm"
+                          alt="Gallery Fullscreen"
+                      />
+                  )}
+                  <p className="absolute bottom-[-40px] text-white/60 text-sm tracking-widest uppercase">
+                    {selectedImageIndex + 1} / {data.galleryImages.length}
+                  </p>
+              </div>
+
+              {/* Next Button */}
+              <button 
+                  onClick={nextImage}
+                  className="absolute right-4 md:right-8 text-white/50 hover:text-white text-6xl z-[10001] transition-all hover:scale-110 p-4"
+              >
+                  &#8250;
+              </button>
+          </div>
+      )}
+
     </div>
   );
 }
