@@ -3,7 +3,7 @@ import HomeClient from './components/HomeClient'; // Import the client component
 
 // 1. Fetch data directly in the Server Component (async function)
 async function getHomePageData() {
-  const query = `*[_type == "homePage"][0]{
+  const query = `*[_type == "homePage2"][0]{
     ...,
     heroImage { upload, url },
     actionCards[],
