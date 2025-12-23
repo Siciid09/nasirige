@@ -1,0 +1,556 @@
+"use client";
+
+import React, { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { 
+  Menu, X, Facebook, Twitter, Instagram, Youtube, 
+  MapPin, Phone, Mail, ChevronRight, Calendar, 
+  Users, TrendingUp, Shield, Heart, CheckCircle, ArrowRight 
+} from 'lucide-react';
+
+// ==============================================================================
+// 🟢 WORDPRESS-STYLE CONTROL PANEL (EDIT YOUR CONTENT HERE)
+// ==============================================================================
+
+const CAMPAIGN_CONTENT = {
+  // 1. GENERAL SITE INFO
+  site: {
+    name: "Abdikareem Ahmed Moge",
+    role: "Candidate for Mayor",
+    location: "Hargeisa, Somaliland",
+    phone: "+252 63 4000000",
+    email: "info@moge2025.com",
+    donationLink: "/donate",
+  },
+
+  // 2. HEADER NAVIGATION
+  nav: [
+    { name: "Home", href: "#home" },
+    { name: "About", href: "#about" },
+    { name: "Vision", href: "#vision" },
+    { name: "Updates", href: "#news" },
+    { name: "Volunteer", href: "#join" },
+  ],
+
+  // 3. HERO SECTION (The big main section)
+  hero: {
+    title: "A New Dawn for Hargeisa",
+    subtitle: "Leadership that listens. Action that delivers. Together, let's build a modern, clean, and prosperous capital.",
+    ctaPrimary: "Join the Movement",
+    ctaSecondary: "Read Our Manifesto",
+    image: "/images/hero-moge.jpg", // Replace with your image path
+  },
+
+  // 4. KEY STATS
+  stats: [
+    { number: "20+", label: "Years Experience" },
+    { number: "15k+", label: "Lives Impacted" },
+    { number: "100%", label: "Commitment" },
+    { number: "Hargeisa", label: "First Priority" },
+  ],
+
+  // 5. INTRO / ABOUT SUMMARY
+  intro: {
+    title: "Meet Abdikareem",
+    heading: "A Servant of the People",
+    text: "Abdikareem Ahmed Moge is not just a politician; he is a community organizer, a father, and a proud son of Hargeisa. With a track record of integrity and public service, he is ready to tackle the city's toughest challenges: water, sanitation, and infrastructure.",
+    image: "/images/about-moge.jpg",
+  },
+
+  // 6. VISION / PRIORITIES
+  vision: {
+    title: "Our Priorities",
+    items: [
+      { icon: "Shield", title: "Public Safety", desc: "Strengthening community policing and lighting up our streets." },
+      { icon: "TrendingUp", title: "Infrastructure", desc: "Paving roads and fixing the drainage systems permanently." },
+      { icon: "Heart", title: "Health & Water", desc: "Clean water for every district and accessible clinics." },
+      { icon: "Users", title: "Youth Jobs", desc: "Creating tech hubs and vocational training centers." },
+    ]
+  },
+
+  // 7. QUOTE SECTION
+  quote: {
+    text: "Hargeisa deserves a mayor who wakes up every morning thinking about how to make your life easier. I am that candidate.",
+    author: "Abdikareem Ahmed Moge"
+  },
+
+  // 8. LATEST NEWS (Blog placeholders)
+  news: {
+    title: "Campaign Updates",
+    posts: [
+      { title: "Townhall Meeting in District 26", date: "Oct 24, 2025", excerpt: "Discussing water solutions with local elders." },
+      { title: "Youth Tech Initiative Launched", date: "Oct 20, 2025", excerpt: "Promising 500 new coding jobs for Hargeisa youth." },
+      { title: "Green Hargeisa Project", date: "Oct 15, 2025", excerpt: "Planting 1000 trees across the city center." },
+    ]
+  },
+
+  // 9. VIDEO SECTION
+  video: {
+    title: "Watch Our Journey",
+    sub: "See the movement in action.",
+    placeholder: "Campaign Video Placeholder" 
+  },
+
+  // 10. UPCOMING EVENTS
+  events: {
+    title: "Join Us at an Event",
+    list: [
+      { date: "NOV 05", title: "Grand Rally at Freedom Park", time: "15:00 PM" },
+      { date: "NOV 12", title: "Fundraising Dinner", time: "19:00 PM" },
+      { date: "NOV 18", title: "Community Cleanup Day", time: "08:00 AM" },
+    ]
+  },
+
+  // 11. TESTIMONIALS
+  testimonials: {
+    title: "Voices of Hargeisa",
+    people: [
+      { name: "Amina Yusuf", role: "Market Vendor", text: "He actually listens to us small business owners. He has my vote." },
+      { name: "Khadar Ali", role: "University Student", text: "Finally, someone talking about real jobs for the youth." },
+      { name: "Dr. Fowzia", role: "Local Doctor", text: "His plan for sanitation is exactly what our health sector needs." },
+    ]
+  },
+
+  // 12. GALLERY
+  gallery: {
+    title: "Campaign Gallery",
+    images: ["/images/gal1.jpg", "/images/gal2.jpg", "/images/gal3.jpg", "/images/gal4.jpg"]
+  },
+
+  // 13. ACHIEVEMENTS (Timeline)
+  timeline: {
+    title: "A History of Service",
+    steps: [
+      { year: "2015", text: "Founded Local Youth NGO" },
+      { year: "2018", text: "Led City Clean-up Initiative" },
+      { year: "2021", text: "Elected City Council Member" },
+      { year: "2025", text: "Running for Mayor" },
+    ]
+  },
+
+  // 14. DONATION CTA
+  donate: {
+    title: "Power this Movement",
+    text: "Campaigns are powered by people like you. Even $5 makes a difference.",
+    button: "Donate via Zaad/Edahab"
+  },
+
+  // 15. VOLUNTEER FORM
+  volunteer: {
+    title: "Join the Team",
+    desc: "We need door knockers, digital warriors, and event organizers.",
+  },
+
+  // 16. FAQ
+  faq: {
+    title: "Frequently Asked Questions",
+    questions: [
+      { q: "How do I register to vote?", a: "Visit your local district office with your ID." },
+      { q: "Where can I read the full manifesto?", a: "Download the PDF from the Vision section." },
+      { q: "Can I volunteer from abroad?", a: "Yes! Join our digital diaspora team." },
+    ]
+  },
+
+  // 17. NEWSLETTER
+  newsletter: {
+    title: "Stay Connected",
+    desc: "Get the latest news directly to your inbox/WhatsApp."
+  },
+  
+  socials: [
+    { icon: Facebook, href: "#" },
+    { icon: Twitter, href: "#" },
+    { icon: Instagram, href: "#" },
+    { icon: Youtube, href: "#" },
+  ]
+};
+
+// ==============================================================================
+// 🔴 TECHNICAL COMPONENTS (NO NEED TO TOUCH BELOW THIS LINE)
+// ==============================================================================
+
+const SectionTitle = ({ title, subtitle, center = true }: { title: string, subtitle?: string, center?: boolean }) => (
+  <div className={`mb-12 ${center ? 'text-center' : ''}`}>
+    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{title}</h2>
+    <div className={`h-1.5 w-24 bg-green-600 rounded-full mb-4 ${center ? 'mx-auto' : ''}`}></div>
+    {subtitle && <p className="text-gray-600 max-w-2xl mx-auto">{subtitle}</p>}
+  </div>
+);
+
+export default function CampaignPage() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  return (
+    <div className="min-h-screen bg-gray-50 font-sans text-gray-800">
+      
+      {/* 1. HEADER & NAVIGATION */}
+      <header className="sticky top-0 z-50 bg-white shadow-md">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+             {/* Logo Placeholder */}
+            <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                {CAMPAIGN_CONTENT.site.name.charAt(0)}
+            </div>
+            <div>
+                <h1 className="text-xl font-bold leading-none text-gray-900">{CAMPAIGN_CONTENT.site.name}</h1>
+                <p className="text-xs text-green-700 font-semibold tracking-widest uppercase">{CAMPAIGN_CONTENT.site.role}</p>
+            </div>
+          </div>
+
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex gap-8 items-center">
+            {CAMPAIGN_CONTENT.nav.map((item) => (
+              <a key={item.name} href={item.href} className="text-sm font-medium text-gray-600 hover:text-green-600 transition">
+                {item.name}
+              </a>
+            ))}
+            <a href={CAMPAIGN_CONTENT.site.donationLink} className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full font-bold transition">
+              Donate
+            </a>
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
+
+        {/* Mobile Nav Dropdown */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white border-t p-4 flex flex-col gap-4 shadow-lg">
+            {CAMPAIGN_CONTENT.nav.map((item) => (
+              <a key={item.name} href={item.href} className="block text-gray-800 font-medium" onClick={() => setIsMenuOpen(false)}>
+                {item.name}
+              </a>
+            ))}
+            <a href={CAMPAIGN_CONTENT.site.donationLink} className="block text-center bg-red-600 text-white py-2 rounded-full font-bold">Donate</a>
+          </div>
+        )}
+      </header>
+
+      <main>
+        {/* 2. HERO SECTION */}
+        <section id="home" className="relative h-[600px] flex items-center justify-center text-white overflow-hidden">
+          {/* Background Image Placeholder - using a gray div if image fails, but setup for image */}
+          <div className="absolute inset-0 bg-gray-900">
+             <div className="absolute inset-0 bg-gradient-to-r from-green-900/90 to-transparent z-10"></div>
+             {/* Note: In real production, un-comment the Image component below and add a real image path in CONTENT */}
+             {/* <Image src={CAMPAIGN_CONTENT.hero.image} alt="Hero" fill className="object-cover opacity-50" /> */}
+          </div>
+          
+          <div className="container mx-auto px-4 relative z-20">
+            <div className="max-w-2xl">
+                <span className="inline-block bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
+                    Official Campaign
+                </span>
+                <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+                    {CAMPAIGN_CONTENT.hero.title}
+                </h1>
+                <p className="text-xl md:text-2xl mb-8 text-gray-200">
+                    {CAMPAIGN_CONTENT.hero.subtitle}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                    <button className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full font-bold text-lg transition flex items-center justify-center gap-2">
+                        {CAMPAIGN_CONTENT.hero.ctaPrimary} <ArrowRight size={20} />
+                    </button>
+                    <button className="bg-transparent border-2 border-white hover:bg-white/10 text-white px-8 py-4 rounded-full font-bold text-lg transition">
+                        {CAMPAIGN_CONTENT.hero.ctaSecondary}
+                    </button>
+                </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 3. STATS BAR */}
+        <section className="bg-green-700 text-white py-12">
+            <div className="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                {CAMPAIGN_CONTENT.stats.map((stat, idx) => (
+                    <div key={idx}>
+                        <div className="text-4xl font-bold mb-2">{stat.number}</div>
+                        <div className="text-green-200 uppercase text-sm tracking-wide">{stat.label}</div>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        {/* 4. ABOUT CANDIDATE */}
+        <section id="about" className="py-20 bg-white">
+            <div className="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+                <div className="md:w-1/2 relative h-[400px] w-full bg-gray-200 rounded-2xl overflow-hidden shadow-xl">
+                    {/* Image placeholder */}
+                    <div className="flex items-center justify-center h-full text-gray-400">Candidate Image</div>
+                </div>
+                <div className="md:w-1/2">
+                    <h4 className="text-green-600 font-bold uppercase tracking-widest mb-2">{CAMPAIGN_CONTENT.intro.title}</h4>
+                    <h2 className="text-4xl font-bold text-gray-900 mb-6">{CAMPAIGN_CONTENT.intro.heading}</h2>
+                    <p className="text-gray-600 text-lg leading-relaxed mb-8">{CAMPAIGN_CONTENT.intro.text}</p>
+                    <div className="flex items-center gap-4">
+                        {/* Signature placeholder */}
+                        <div className="font-cursive text-2xl text-gray-400">Abdikareem A. M.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {/* 5. VISION / PRIORITIES */}
+        <section id="vision" className="py-20 bg-gray-50">
+            <div className="container mx-auto px-4">
+                <SectionTitle title={CAMPAIGN_CONTENT.vision.title} subtitle="Our roadmap for a better tomorrow." />
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {CAMPAIGN_CONTENT.vision.items.map((item, idx) => (
+                        <div key={idx} className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition border-b-4 border-green-500">
+                            <div className="bg-green-50 w-12 h-12 rounded-full flex items-center justify-center text-green-600 mb-4">
+                                <CheckCircle />
+                            </div>
+                            <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                            <p className="text-gray-600">{item.desc}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+
+        {/* 6. QUOTE SECTION */}
+        <section className="py-16 bg-green-900 text-white text-center">
+            <div className="container mx-auto px-4 max-w-3xl">
+                <Heart className="mx-auto w-12 h-12 text-green-400 mb-6" />
+                <h3 className="text-2xl md:text-4xl font-serif italic leading-relaxed mb-8">"{CAMPAIGN_CONTENT.quote.text}"</h3>
+                <p className="font-bold text-green-300">— {CAMPAIGN_CONTENT.quote.author}</p>
+            </div>
+        </section>
+
+        {/* 7. LATEST NEWS */}
+        <section id="news" className="py-20 bg-white">
+            <div className="container mx-auto px-4">
+                <SectionTitle title={CAMPAIGN_CONTENT.news.title} />
+                <div className="grid md:grid-cols-3 gap-8">
+                    {CAMPAIGN_CONTENT.news.posts.map((post, idx) => (
+                        <div key={idx} className="group cursor-pointer">
+                            <div className="h-48 bg-gray-200 rounded-xl mb-4 overflow-hidden relative">
+                                <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded text-sm font-bold text-gray-800">{post.date}</div>
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-green-600 transition">{post.title}</h3>
+                            <p className="text-gray-600">{post.excerpt}</p>
+                            <span className="text-green-600 font-bold text-sm mt-4 inline-flex items-center gap-1">Read More <ChevronRight size={14}/></span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+
+        {/* 8. VIDEO */}
+        <section className="py-20 bg-black text-white text-center">
+            <div className="container mx-auto px-4">
+                <h2 className="text-3xl font-bold mb-2">{CAMPAIGN_CONTENT.video.title}</h2>
+                <p className="text-gray-400 mb-8">{CAMPAIGN_CONTENT.video.sub}</p>
+                <div className="aspect-video w-full max-w-4xl mx-auto bg-gray-800 rounded-xl flex items-center justify-center border border-gray-700">
+                    <div className="w-20 h-20 bg-green-600 rounded-full flex items-center justify-center pl-1 cursor-pointer hover:scale-110 transition">
+                        <div className="w-0 h-0 border-t-8 border-t-transparent border-l-[16px] border-l-white border-b-8 border-b-transparent ml-1"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {/* 9. EVENTS CALENDAR */}
+        <section className="py-20 bg-gray-50">
+            <div className="container mx-auto px-4">
+                 <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+                    <div>
+                        <h2 className="text-3xl font-bold mb-2">{CAMPAIGN_CONTENT.events.title}</h2>
+                        <div className="h-1.5 w-24 bg-green-600 rounded-full"></div>
+                    </div>
+                    <button className="hidden md:block text-green-600 font-bold border border-green-600 px-6 py-2 rounded-full hover:bg-green-50">View Full Calendar</button>
+                 </div>
+                 
+                 <div className="space-y-4">
+                    {CAMPAIGN_CONTENT.events.list.map((event, idx) => (
+                        <div key={idx} className="bg-white p-6 rounded-xl shadow-sm flex flex-col md:flex-row items-center gap-6 hover:shadow-md transition">
+                            <div className="bg-green-100 text-green-800 p-4 rounded-lg text-center min-w-[100px]">
+                                <span className="block text-sm font-bold tracking-wide">{event.date.split(' ')[0]}</span>
+                                <span className="block text-2xl font-bold">{event.date.split(' ')[1]}</span>
+                            </div>
+                            <div className="flex-grow text-center md:text-left">
+                                <h3 className="text-xl font-bold mb-1">{event.title}</h3>
+                                <div className="text-gray-500 flex items-center justify-center md:justify-start gap-4 text-sm">
+                                    <span className="flex items-center gap-1"><Users size={14}/> Public Event</span>
+                                    <span className="flex items-center gap-1"><Calendar size={14}/> {event.time}</span>
+                                </div>
+                            </div>
+                            <button className="bg-gray-900 text-white px-6 py-2 rounded-lg text-sm font-bold hover:bg-gray-800">RSVP</button>
+                        </div>
+                    ))}
+                 </div>
+            </div>
+        </section>
+
+        {/* 10. TESTIMONIALS */}
+        <section className="py-20 bg-white">
+            <div className="container mx-auto px-4 text-center">
+                <SectionTitle title={CAMPAIGN_CONTENT.testimonials.title} />
+                <div className="grid md:grid-cols-3 gap-8">
+                    {CAMPAIGN_CONTENT.testimonials.people.map((person, idx) => (
+                        <div key={idx} className="bg-gray-50 p-8 rounded-2xl relative">
+                            <div className="absolute top-[-20px] left-1/2 transform -translate-x-1/2 bg-green-500 text-white p-3 rounded-full">
+                                <Heart size={20} />
+                            </div>
+                            <p className="text-gray-600 italic mb-6 pt-4">"{person.text}"</p>
+                            <h4 className="font-bold text-gray-900">{person.name}</h4>
+                            <span className="text-sm text-gray-500">{person.role}</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+
+        {/* 11. GALLERY */}
+        <section className="py-10">
+             <div className="container mx-auto px-4">
+                <h2 className="text-2xl font-bold mb-6">{CAMPAIGN_CONTENT.gallery.title}</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {CAMPAIGN_CONTENT.gallery.images.map((img, idx) => (
+                        <div key={idx} className="aspect-square bg-gray-200 rounded-xl hover:opacity-90 cursor-pointer"></div>
+                    ))}
+                </div>
+             </div>
+        </section>
+
+        {/* 12. TIMELINE */}
+        <section className="py-20 bg-green-50">
+            <div className="container mx-auto px-4">
+                <SectionTitle title={CAMPAIGN_CONTENT.timeline.title} />
+                <div className="flex flex-col md:flex-row justify-between items-center relative">
+                    {/* Line */}
+                    <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gray-300 -z-10 transform -translate-y-1/2"></div>
+                    
+                    {CAMPAIGN_CONTENT.timeline.steps.map((step, idx) => (
+                        <div key={idx} className="bg-white p-6 rounded-xl shadow-md w-full md:w-64 text-center mb-4 md:mb-0 border border-gray-100">
+                            <div className="text-green-600 font-bold text-xl mb-2">{step.year}</div>
+                            <div className="text-gray-700 font-medium">{step.text}</div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+
+        {/* 13. DONATE CTA */}
+        <section className="py-20 bg-red-600 text-white text-center">
+            <div className="container mx-auto px-4 max-w-3xl">
+                <h2 className="text-4xl font-bold mb-6">{CAMPAIGN_CONTENT.donate.title}</h2>
+                <p className="text-xl opacity-90 mb-8">{CAMPAIGN_CONTENT.donate.text}</p>
+                <div className="flex flex-wrap justify-center gap-4">
+                    <button className="bg-white text-red-600 px-10 py-4 rounded-full font-bold text-xl hover:bg-gray-100 shadow-lg">
+                        {CAMPAIGN_CONTENT.donate.button}
+                    </button>
+                    <button className="bg-red-800 text-white px-10 py-4 rounded-full font-bold text-xl hover:bg-red-900 shadow-lg">
+                        $10 Quick Give
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        {/* 14. VOLUNTEER FORM */}
+        <section id="join" className="py-20 bg-white">
+            <div className="container mx-auto px-4 max-w-4xl">
+                <div className="bg-gray-50 rounded-3xl p-8 md:p-12 shadow-inner">
+                    <div className="text-center mb-10">
+                        <h2 className="text-3xl font-bold mb-4">{CAMPAIGN_CONTENT.volunteer.title}</h2>
+                        <p className="text-gray-600">{CAMPAIGN_CONTENT.volunteer.desc}</p>
+                    </div>
+                    <form className="grid md:grid-cols-2 gap-6">
+                        <input type="text" placeholder="Full Name" className="w-full p-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500" />
+                        <input type="email" placeholder="Email Address" className="w-full p-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500" />
+                        <input type="tel" placeholder="Phone Number" className="w-full p-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500" />
+                        <select className="w-full p-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white">
+                            <option>How can you help?</option>
+                            <option>Hosting Events</option>
+                            <option>Social Media</option>
+                            <option>Door Knocking</option>
+                        </select>
+                        <button className="md:col-span-2 bg-green-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-green-700 transition">
+                            Sign Me Up!
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        {/* 15. FAQ */}
+        <section className="py-20 bg-white">
+            <div className="container mx-auto px-4 max-w-3xl">
+                <SectionTitle title={CAMPAIGN_CONTENT.faq.title} center={true} />
+                <div className="space-y-4">
+                    {CAMPAIGN_CONTENT.faq.questions.map((item, idx) => (
+                        <div key={idx} className="border border-gray-200 rounded-lg p-6 hover:border-green-400 transition cursor-pointer">
+                            <h4 className="font-bold text-lg mb-2 flex justify-between">
+                                {item.q}
+                                <ChevronRight className="text-green-500" />
+                            </h4>
+                            <p className="text-gray-600">{item.a}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+
+        {/* 16. NEWSLETTER */}
+        <section className="py-16 bg-gray-900 text-white text-center">
+            <div className="container mx-auto px-4">
+                <h2 className="text-2xl font-bold mb-4">{CAMPAIGN_CONTENT.newsletter.title}</h2>
+                <p className="text-gray-400 mb-6">{CAMPAIGN_CONTENT.newsletter.desc}</p>
+                <div className="flex flex-col sm:flex-row justify-center gap-2 max-w-md mx-auto">
+                    <input type="email" placeholder="Enter your email" className="px-6 py-3 rounded-full text-gray-900 focus:outline-none flex-grow" />
+                    <button className="bg-green-600 px-8 py-3 rounded-full font-bold hover:bg-green-700">Subscribe</button>
+                </div>
+            </div>
+        </section>
+      </main>
+
+      {/* 17. FOOTER */}
+      <footer className="bg-black text-gray-400 py-16">
+        <div className="container mx-auto px-4">
+            <div className="grid md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <h3 className="text-white font-bold text-2xl mb-6">{CAMPAIGN_CONTENT.site.name}</h3>
+                    <p className="mb-6">Building a better future for Hargeisa, one district at a time.</p>
+                    <div className="flex gap-4">
+                        {CAMPAIGN_CONTENT.socials.map((social, idx) => (
+                            <a key={idx} href={social.href} className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-600 hover:text-white transition">
+                                <social.icon size={18} />
+                            </a>
+                        ))}
+                    </div>
+                </div>
+                <div>
+                    <h4 className="text-white font-bold mb-6">Quick Links</h4>
+                    <ul className="space-y-3">
+                        {CAMPAIGN_CONTENT.nav.map(item => (
+                            <li key={item.name}><a href={item.href} className="hover:text-green-500">{item.name}</a></li>
+                        ))}
+                    </ul>
+                </div>
+                <div>
+                    <h4 className="text-white font-bold mb-6">Contact</h4>
+                    <ul className="space-y-3">
+                        <li className="flex items-center gap-3"><MapPin size={16}/> {CAMPAIGN_CONTENT.site.location}</li>
+                        <li className="flex items-center gap-3"><Phone size={16}/> {CAMPAIGN_CONTENT.site.phone}</li>
+                        <li className="flex items-center gap-3"><Mail size={16}/> {CAMPAIGN_CONTENT.site.email}</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 className="text-white font-bold mb-6">Legal</h4>
+                    <p className="text-sm mb-4">Paid for by the Committee to Elect {CAMPAIGN_CONTENT.site.name}.</p>
+                    <div className="flex gap-4 text-sm">
+                        <a href="#" className="hover:text-white">Privacy Policy</a>
+                        <a href="#" className="hover:text-white">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+            <div className="border-t border-gray-800 pt-8 text-center text-sm">
+                &copy; {new Date().getFullYear()} {CAMPAIGN_CONTENT.site.name} Campaign. All rights reserved.
+            </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
