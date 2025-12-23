@@ -124,7 +124,7 @@ export default function Dashboard() {
       
       {/* SIDEBAR */}
       <aside className="w-64 bg-[#0a1f44] fixed h-full z-20 hidden md:flex flex-col">
-        <div className="h-20 flex items-center px-8 border-b border-white/10"><h1 className="text-xl font-bold text-white font-serif">Nasir Ige.</h1></div>
+        <div className="h-20 flex items-center px-8 border-b border-white/10"><h1 className="text-xl font-bold text-white font-serif">Nasa Ige.</h1></div>
         <div className="flex-1 py-6 overflow-y-auto">
           <p className="px-6 text-xs font-bold text-slate-500 uppercase mb-2">Main</p>
           <SidebarItem id="overview" label="Overview" Icon={LayoutDashboard} />

@@ -1,9 +1,9 @@
 import { defineField, defineType } from 'sanity'
 
 export default defineType({
-  // 🔴 FIX: Changed from 'nasirHome' to 'homePage' to match your error
+  // 🔴 FIX: Changed from 'NasaHome' to 'homePage' to match your error
   name: 'homePage',
-  title: 'Home Page (Nasir Ige)',
+  title: 'Home Page (Nasa Ige)',
   type: 'document',
   
   // 🟢 WORDPRESS STYLE TABS
@@ -31,7 +31,7 @@ export default defineType({
       title: 'Candidate Name (Header)',
       type: 'string',
       group: 'hero',
-      initialValue: 'Nasir Ige.',
+      initialValue: 'Nasa Ige.',
     }),
     defineField({
       name: 'heroTopTag',
@@ -111,7 +111,7 @@ export default defineType({
       }],
       initialValue: [
         { title: 'Register to Vote', subtitle: 'Make your voice heard.', iconClass: 'fa-solid fa-check-to-slot', color: 'white' },
-        { title: 'Attend Events', subtitle: 'Meet Nasir Ige.', iconClass: 'fa-regular fa-calendar-check', color: 'white' },
+        { title: 'Attend Events', subtitle: 'Meet Nasa Ige.', iconClass: 'fa-regular fa-calendar-check', color: 'white' },
         { title: 'Get Involved', subtitle: 'Make a real impact.', iconClass: 'fa-solid fa-bullhorn', color: 'blue' },
         { title: 'Support Vision', subtitle: 'Help us build the future.', iconClass: 'fa-solid fa-handshake', color: 'white' },
       ]
@@ -264,7 +264,7 @@ export default defineType({
         ]
       }],
       initialValue: [
-         { date: 'NOV 24, 2025', category: 'International Tour', title: 'Grand Diaspora Welcome in Sweden', desc: 'Presidential Candidate Nasir Ige receives a thunderous reception...', location: 'Sweden', videoUrl: 'https://www.facebook.com/watch/?v=1166128272402732' },
+         { date: 'NOV 24, 2025', category: 'International Tour', title: 'Grand Diaspora Welcome in Sweden', desc: 'Presidential Candidate Nasa Ige receives a thunderous reception...', location: 'Sweden', videoUrl: 'https://www.facebook.com/watch/?v=1166128272402732' },
          { date: 'NOV 25, 2025', category: 'Gala Event', title: 'Sweden Victory Ceremony', desc: 'An electric atmosphere at the "Xaflada Sweden"...', location: 'Stockholm, Sweden', videoUrl: 'https://www.facebook.com/watch/?v=1166128272402732' },
          { date: 'DEC 15, 2025', category: 'Keynote Speech', title: 'The Garowe Declaration', desc: 'A pivotal moment in Puntland...', location: 'Garowe, Puntland', videoUrl: 'https://www.facebook.com/watch/?v=1424889892385666' }
       ]
@@ -288,7 +288,7 @@ export default defineType({
         ]
       }],
       initialValue: [
-        { name: "Fatima Ali", role: "Teacher", text: "Waxbarashadu waa mustaqbalka. Guul Nasir!" },
+        { name: "Fatima Ali", role: "Teacher", text: "Waxbarashadu waa mustaqbalka. Guul Nasa!" },
         { name: "Mohamed Abdi", role: "Fisherman", text: "Dhaqaalaha dalka wuu kobcinayaa." },
         { name: "Ayan Hassan", role: "Entrepreneur", text: "Nabad iyo nolol baan rabnaa." },
       ]
@@ -338,8 +338,8 @@ export default defineType({
         ]
       }],
       initialValue: [
-        { title: 'Nasir Ige Officially Declares Candidacy for 2026 Presidency', date: 'Nov 18, 2025', excerpt: 'Former Senior Political Advisor announces his bid...', tag: 'Official Statement', link: 'https://www.facebook.com/onderzoekJournalist/posts/somali-politician-nasir-ige-who-previously-served-as-a-senior-political-advisor-/1374233577401102/' },
-        { title: 'Historic Promise: Appointing a Female Prime Minister', date: 'Dec 02, 2025', excerpt: 'Breaking barriers: Nasir Ige vows to empower women...', tag: 'Policy Pledge', link: 'https://www.soomaalinimo.com/2025/12/somalia-presidential-candidate-nasa-ige.html' }
+        { title: 'Nasa Ige Officially Declares Candidacy for 2026 Presidency', date: 'Nov 18, 2025', excerpt: 'Former Senior Political Advisor announces his bid...', tag: 'Official Statement', link: 'https://www.facebook.com/onderzoekJournalist/posts/somali-politician-Nasa-ige-who-previously-served-as-a-senior-political-advisor-/1374233577401102/' },
+        { title: 'Historic Promise: Appointing a Female Prime Minister', date: 'Dec 02, 2025', excerpt: 'Breaking barriers: Nasa Ige vows to empower women...', tag: 'Policy Pledge', link: 'https://www.soomaalinimo.com/2025/12/somalia-presidential-candidate-nasa-ige.html' }
       ]
     }),
     defineField({
@@ -399,7 +399,7 @@ export default defineType({
         group: 'footer',
         fields: [
             { name: 'phone', type: 'string', initialValue: '+252 61 555 0124' },
-            { name: 'email', type: 'string', initialValue: 'info@nasirige2026.so' },
+            { name: 'email', type: 'string', initialValue: 'info@Nasaige2026.so' },
             { name: 'address', type: 'string', initialValue: 'Km4 Junction, Mogadishu' }
         ]
     })

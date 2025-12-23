@@ -151,7 +151,7 @@ export default function HomeClient({ data }: { data: any }) {
         <header className="fixed w-full top-0 left-0 z-50 bg-[#0c2448] py-7 shadow-xl transition-all">
           <div className="w-[96%] mx-auto flex justify-between items-center text-white">
             <div className="text-[28px] font-bold tracking-[1px] cursor-pointer font-header" onClick={() => window.scrollTo(0,0)}>
-                Nasir Ige.
+                Nasa Ige.
             </div>
             
             <nav className="hidden md:flex items-center gap-[35px]">
@@ -309,7 +309,7 @@ export default function HomeClient({ data }: { data: any }) {
         <div className="flex items-center gap-2">
              <div className="h-0.5 w-8 bg-blue-600"></div>
              <p className="text-xs font-bold text-blue-800 uppercase tracking-widest">
-                 Nasir Ige {/* You can change this name here if you want */}
+                 Nasa Ige {/* You can change this name here if you want */}
              </p>
         </div>
 
@@ -455,7 +455,7 @@ export default function HomeClient({ data }: { data: any }) {
                 <div>
                     <p className="text-blue-600 uppercase text-xs font-bold tracking-widest mb-2">Strategic Advisory Council</p>
                     <h2 className="text-4xl font-serif font-bold text-brand-dark mb-6">{data.advisorsTitle}</h2>
-                    <p className="text-slate-600 text-sm leading-relaxed mb-8">As an independent candidate, Nasir Ige is advised by a coalition of Somali intellectuals, elders, and technocrats.</p>
+                    <p className="text-slate-600 text-sm leading-relaxed mb-8">As an independent candidate, Nasa Ige is advised by a coalition of Somali intellectuals, elders, and technocrats.</p>
                     <div className="flex gap-2">
                         {data.advisors?.map((_: any, i: number) => (
                             <button key={i} onClick={() => setCurrentAdvisor(i)} className={`w-3 h-3 rounded-full transition-all duration-300 ${currentAdvisor===i ? 'bg-blue-600' : 'bg-gray-300 hover:bg-blue-400'}`}></button>
@@ -663,7 +663,7 @@ export default function HomeClient({ data }: { data: any }) {
       <footer className="bg-brand-dark text-slate-300 py-12 border-t border-white/10">
         <div className="container mx-auto px-6 grid md:grid-cols-4 gap-12 mb-16">
             <div>
-                <div className="flex items-center gap-2 mb-6 text-white"><div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold">N</div><span className="text-xl font-serif font-bold">Nasir Ige.</span></div>
+                <div className="flex items-center gap-2 mb-6 text-white"><div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold">N</div><span className="text-xl font-serif font-bold">Nasa Ige.</span></div>
                 <p className="text-xs leading-relaxed mb-6 opacity-70">The official campaign for a united, prosperous, and sovereign Somalia.</p>
                 <div className="flex gap-4 mt-8">
                     {data.footer?.facebook && <a href={data.footer.facebook} className="w-8 h-8 rounded bg-blue-900/50 flex items-center justify-center hover:bg-blue-600 transition text-white"><i className="fa-brands fa-facebook-f"></i></a>}

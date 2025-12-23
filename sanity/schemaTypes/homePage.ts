@@ -163,7 +163,7 @@ export default defineType({
         title: 'Signature Text',
         type: 'string',
         group: 'about',
-        description: 'e.g. "Presidential Candidate Nasir Ige"' // 🟢 NEW FIELD
+        description: 'e.g. "Presidential Candidate Nasa Ige"' // 🟢 NEW FIELD
     }),
 
     // --- BIG QUOTE SECTION (MOVED) ---

@@ -59,7 +59,7 @@ export default function HomeClient() {
       {/* --- HEADER --- */}
       <header className="fixed top-0 left-0 w-full z-50 bg-[#0c2448] shadow-xl">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="text-2xl font-bold text-white font-serif">Nasir Ige.</div>
+          <div className="text-2xl font-bold text-white font-serif">Nasa Ige.</div>
           
           {/* Desktop Nav */}
           <nav className="hidden md:flex gap-8 text-white text-sm tracking-widest uppercase font-medium">
@@ -109,7 +109,7 @@ export default function HomeClient() {
           <div className="relative h-[500px] w-full" data-aos="zoom-in">
              <Image 
                src="https://firebasestorage.googleapis.com/v0/b/guriapp123.firebasestorage.app/o/Gg%2F20251120_134403.png?alt=media&token=0258e491-8eae-48b2-b427-8d76c6197581"
-               alt="Nasir Ige"
+               alt="Nasa Ige"
                fill
                className="object-contain object-bottom"
              />

@@ -15,7 +15,7 @@ export default defineType({
       title: 'Magaca Bogga',
       type: 'string',
       group: 'header',
-      initialValue: 'Nasir Ige.'
+      initialValue: 'Nasa Ige.'
     }),
     defineField({
       name: 'navLinks',

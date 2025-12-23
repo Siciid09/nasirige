@@ -11,7 +11,7 @@ export default function ClientHeader({ links }: { links: any[] }) {
           <div className="w-[96%] mx-auto flex justify-between items-center text-white">
             
             <Link href="/" className="text-[28px] font-bold tracking-[1px] cursor-pointer font-header" onClick={() => window.scrollTo(0,0)}>
-                Nasir Ige.
+                Nasa Ige.
             </Link>
 
             <nav className="hidden md:block">

@@ -4,9 +4,9 @@ import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/fire
 // 1. Paste your Firebase Config keys here
 const firebaseConfig = {
   apiKey: "AIzaSyAjC2Qx7lGOmm3Oa0Ghs10JI99ljC9QEr8",
-  authDomain: "nasirige1.firebaseapp.com",
-  projectId: "nasirige1",
-  storageBucket: "nasirige1.firebasestorage.app",
+  authDomain: "Nasaige1.firebaseapp.com",
+  projectId: "Nasaige1",
+  storageBucket: "Nasaige1.firebasestorage.app",
   messagingSenderId: "759804660634",
   appId: "1:759804660634:web:a368a3a9c2d7b5ddff0823",
   measurementId: "G-JY9BZMY4Z4"

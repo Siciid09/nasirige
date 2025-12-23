@@ -2,5 +2,5 @@ git init
 git add .
 git commit -m "Force update"
 git branch -M main
-git remote add origin https://github.com/Siciid09/nasirige.git
+git remote add origin https://github.com/Siciid09/Nasaige.git
 git push -u origin main --force
