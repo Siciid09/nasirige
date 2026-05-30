@@ -1,47 +1,24 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
-// 1. Paste your Firebase Config keys here
+// Fetch credentials securely from .env.local
 const firebaseConfig = {
-  apiKey: "AIzaSyAjC2Qx7lGOmm3Oa0Ghs10JI99ljC9QEr8",
-  authDomain: "Nasaige1.firebaseapp.com",
-  projectId: "Nasaige1",
-  storageBucket: "Nasaige1.firebasestorage.app",
-  messagingSenderId: "759804660634",
-  appId: "1:759804660634:web:a368a3a9c2d7b5ddff0823",
-  measurementId: "G-JY9BZMY4Z4"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// 2. Initialize Firebase (prevents re-initialization errors in Next.js)
+// Initialize Firebase only if it hasn't been initialized already
+// This prevents Next.js hot-reloading from throwing "app already exists" errors
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+
+// Export the Firestore database and Auth instances
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-// 3. Export the 'trackVisit' function
-export const trackVisit = async () => {
-  if (typeof window === "undefined") return; // Don't run on server
-  try {
-    await addDoc(collection(db, "page_visits"), {
-      page: "home",
-      timestamp: serverTimestamp(),
-      userAgent: window.navigator.userAgent || "unknown"
-    });
-  } catch (e) {
-    console.error("Error tracking visit: ", e);
-  }
-};
-
-// 4. Export the 'saveFormData' function (This fixes your error)
-export const saveFormData = async (collectionName: string, data: any) => {
-  try {
-    await addDoc(collection(db, collectionName), {
-      ...data,
-      timestamp: serverTimestamp()
-    });
-    return { success: true };
-  } catch (e) {
-    console.error("Error adding document: ", e);
-    return { success: false, error: e };
-  }
-};
-
-export { db, app };
+export { db, auth };

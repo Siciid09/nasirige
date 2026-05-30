@@ -1,0 +1,140 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { ArrowLeft, Clock, Calendar, Share2, Twitter, Linkedin, Copy } from "lucide-react";
+
+export default function BlogView() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    window.scrollTo(0, 0);
+  }, []);
+
+  if (!mounted) return null;
+
+  return (
+    <div className="min-h-screen bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white selection:bg-indigo-500 selection:text-white pb-32">
+      
+      {/* Floating Back Button */}
+      <div className="fixed top-8 left-4 md:left-8 z-50 animate-fade-in-up">
+        <Link 
+          href="/#blog"
+          className="group flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/80 dark:bg-black/50 backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-lg hover:bg-indigo-600 hover:border-indigo-600 dark:hover:bg-indigo-600 hover:text-white transition-all duration-300"
+        >
+          <ArrowLeft className="w-5 h-5 md:w-6 md:h-6 transform group-hover:-translate-x-1 transition-transform" />
+        </Link>
+      </div>
+
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-32">
+        
+        {/* ARTICLE HEADER */}
+        <header className="mb-16 md:mb-24 text-center flex flex-col items-center animate-fade-in-up">
+          <div className="px-5 py-2.5 rounded-full bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-widest border border-indigo-100 dark:border-indigo-500/20 mb-8">
+            Engineering Strategy
+          </div>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[1.1] mb-8 text-slate-900 dark:text-white max-w-4xl">
+            Architecting a Scalable SaaS: Lessons from HantiKaab.
+          </h1>
+          <div className="flex flex-wrap items-center justify-center gap-6 text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+            <span className="flex items-center gap-2"><Calendar className="w-4 h-4" /> May 24, 2026</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-white/20" />
+            <span className="flex items-center gap-2"><Clock className="w-4 h-4" /> 8 Min Read</span>
+          </div>
+        </header>
+
+        {/* MASSIVE FRAMED COVER IMAGE */}
+        <div className="relative w-full aspect-video md:aspect-[21/9] rounded-[2rem] md:rounded-[3rem] overflow-hidden mb-24 shadow-2xl bg-slate-200 dark:bg-black p-2 md:p-4 border border-slate-200 dark:border-white/10 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+          <div className="relative w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?fit=crop&w=2000&q=80" 
+              alt="Cover Image" 
+              className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-[2000ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
+            />
+          </div>
+        </div>
+
+        {/* CONTENT GRID: 3-Col Sidebar / 9-Col Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
+          
+          {/* Sticky Author & Share Sidebar */}
+          <div className="lg:col-span-3 order-2 lg:order-1">
+            <div className="sticky top-32 space-y-12">
+              
+              {/* Author Block */}
+              <div>
+                <span className="text-xs font-bold uppercase tracking-widest text-slate-400 block mb-6">Written By</span>
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-full overflow-hidden bg-slate-200 dark:bg-white/10">
+                    <img 
+                      src="https://media.licdn.com/dms/image/v2/D4E03AQEQUVTQ3C73Ag/profile-displayphoto-shrink_400_400/B4EZnMVVKYHEAg-/0/1760069768422?e=1766620800&v=beta&t=ChNU3ccxs3dw8r1XCsKSaIPWoOLX4HFc14NJwqQ5y9s" 
+                      alt="Mubarik Osman" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 dark:text-white">Mubarik Osman</h4>
+                    <p className="text-xs text-slate-500">Software Engineer</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Share Block */}
+              <div>
+                <span className="text-xs font-bold uppercase tracking-widest text-slate-400 block mb-6">Share Article</span>
+                <div className="flex gap-3">
+                  {[Twitter, Linkedin, Copy].map((Icon, i) => (
+                    <button key={i} className="w-12 h-12 rounded-full flex items-center justify-center bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-500 transition-all shadow-sm active:scale-95">
+                      <Icon className="w-5 h-5" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Prose Content Area */}
+          <div className="lg:col-span-9 order-1 lg:order-2">
+            <div className="prose prose-lg dark:prose-invert prose-slate max-w-none prose-headings:font-black prose-headings:tracking-tight prose-a:text-indigo-500 hover:prose-a:text-indigo-600 prose-img:rounded-3xl prose-img:border prose-img:border-slate-200 dark:prose-img:border-white/10">
+              
+              <p className="text-xl md:text-2xl leading-relaxed text-slate-600 dark:text-slate-300 font-light mb-12">
+                Building an enterprise-level SaaS platform requires more than just writing code; it demands an architecture that anticipates failure, scales infinitely, and secures critical data.
+              </p>
+
+              <h2 className="text-3xl font-black text-slate-900 dark:text-white mt-16 mb-6 tracking-tight">The Data Dilemma</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                When we began architecting HantiKaab, the primary constraint was managing state across thousands of dynamic financial records while ensuring real-time synchronization. Standard REST APIs were going to be too slow, and managing websocket connections manually was a risk. 
+              </p>
+
+              <div className="p-8 my-12 bg-indigo-50 dark:bg-indigo-500/5 border-l-4 border-indigo-500 rounded-r-3xl">
+                <p className="text-lg md:text-xl italic text-slate-800 dark:text-slate-200 m-0">
+                  "If your architecture relies entirely on a perfect network connection, your architecture is already broken."
+                </p>
+              </div>
+
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-12 mb-4 tracking-tight">Implementing Firestore Offline-First</h3>
+              <p className="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                By tapping into Firebase's local cache mechanisms, we allowed users to execute CRUD operations completely offline. Next.js handled the server-side rendering for SEO-heavy marketing pages, while the core app functioned entirely as a robust SPA.
+              </p>
+              
+              <img 
+                src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?fit=crop&w=1200&q=80" 
+                alt="Code Structure" 
+                className="w-full rounded-[2rem] border border-slate-200 dark:border-white/10 my-12"
+              />
+
+              <h2 className="text-3xl font-black text-slate-900 dark:text-white mt-16 mb-6 tracking-tight">The Takeaway</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                Scaling software isn't just about throwing more servers at the problem. It is about intelligent state management, aggressive caching layers, and fundamentally respecting the user's bandwidth constraints.
+              </p>
+
+            </div>
+          </div>
+          
+        </div>
+      </main>
+    </div>
+  );
+}
