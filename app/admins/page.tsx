@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { 
   LayoutDashboard, Briefcase, Award, Layers, Route,Zap, 
   Mail, CalendarCheck, LogOut, ShieldAlert, BarChart3,
-  Save, Loader2, PlusCircle, Trash2, Edit, Eye, User as UserIcon, X
+  Save, Loader2, PlusCircle, Trash2, Edit, Eye, User as UserIcon, X, FileText
 } from "lucide-react";
 import { auth } from "@/lib/firebase";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut, User } from "firebase/auth";
@@ -188,6 +188,7 @@ export default function AdminDashboard() {
     { id: 'overview', label: 'Overview', icon: <LayoutDashboard className="w-5 h-5" /> },
     { id: 'profile', label: 'Profile', icon: <UserIcon className="w-5 h-5" /> },
     { id: 'projects', label: 'Projects', icon: <Briefcase className="w-5 h-5" /> },
+    { id: 'cv', label: 'Resume / CV', icon: <FileText className="w-5 h-5" /> },
     { id: 'certificates', label: 'Certificates', icon: <Award className="w-5 h-5" /> },
     { id: 'services', label: 'Services', icon: <Layers className="w-5 h-5" /> },
     { id: 'experience', label: 'Experience', icon: <Route className="w-5 h-5" /> },
@@ -299,6 +300,70 @@ export default function AdminDashboard() {
                   <button type="submit" disabled={isSubmitting} className="w-full py-4 bg-indigo-600 text-white font-bold rounded-xl">{isSubmitting ? 'Publishing...' : 'Publish Project'}</button>
                 </form>
               </div>
+            </div>
+          )}
+
+          {/* TAB: RESUME / CV */}
+          {activeTab === 'cv' && (
+            <div className="bg-white dark:bg-[#0a0a0a] p-8 rounded-[2rem] border border-slate-200 dark:border-white/5 shadow-xl animate-fade-in-up">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-xl font-bold">Manage Resume / CV</h3>
+              </div>
+              
+              {/* Current CV Display */}
+              {data && data.length > 0 ? (
+                <div className="mb-8 p-6 bg-indigo-50/50 dark:bg-white/5 rounded-2xl border border-indigo-100 dark:border-white/5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                  <div className="overflow-hidden w-full">
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Active Resume Link</p>
+                    <a href={data[0].link} target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 font-medium hover:underline truncate block w-full">
+                      {data[0].link}
+                    </a>
+                  </div>
+                  <div className="flex shrink-0 gap-2">
+                     <a href={data[0].link} target="_blank" rel="noopener noreferrer" className="px-5 py-2.5 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-bold text-sm flex items-center gap-2 shadow-lg shadow-indigo-500/20">
+                       <Eye className="w-4 h-4" /> View CV
+                     </a>
+                     <button onClick={() => handleDelete('cv', data[0].id)} className="px-4 py-2.5 bg-red-50 dark:bg-red-500/10 text-red-600 rounded-xl hover:bg-red-100 dark:hover:bg-red-500/20 font-bold text-sm">
+                       Remove
+                     </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="mb-8 p-6 bg-yellow-50 dark:bg-yellow-500/10 text-yellow-700 dark:text-yellow-500 rounded-2xl border border-yellow-200 dark:border-yellow-500/20">
+                  <p className="text-sm font-bold flex items-center gap-2"><ShieldAlert className="w-5 h-5"/> No active CV found. Please add a link below.</p>
+                </div>
+              )}
+
+              {/* Upload / Update Form */}
+              <form onSubmit={(e) => {
+                // Smart form: If a CV exists, UPDATE it. If not, CREATE it.
+                if (data && data.length > 0) {
+                  e.preventDefault();
+                  setIsSubmitting(true);
+                  const formData = new FormData(e.currentTarget);
+                  const payload = Object.fromEntries(formData.entries());
+                  fetch("/api/admin", {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ collectionName: 'cv', id: data[0].id, data: payload }),
+                  }).then(() => {
+                    fetchData('cv');
+                    alert("CV Link Successfully Updated!");
+                  }).finally(() => setIsSubmitting(false));
+                } else {
+                  handleSubmit(e, 'cv');
+                }
+              }} className="space-y-4 pt-6 border-t border-slate-100 dark:border-white/5">
+                <label className="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">
+                  {data && data.length > 0 ? "Re-upload / Change Link" : "Upload New CV Link (Google Drive, PDF URL)"}
+                </label>
+                <div className="flex flex-col md:flex-row gap-4">
+                  <input type="url" name="link" required placeholder="https://your-drive-link.com/cv.pdf" className="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 transition-colors" />
+                  <button type="submit" disabled={isSubmitting} className="shrink-0 px-8 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all">
+                    {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : (data && data.length > 0 ? 'Update CV' : 'Save CV')}
+                  </button>
+                </div>
+              </form>
             </div>
           )}
 

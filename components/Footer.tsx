@@ -101,6 +101,27 @@ export default function Footer() {
           </div>
         </div>
       </div>
+
+      {/* Floating WhatsApp Button */}
+      <a
+        href="https://wa.me/252633227084" // I pre-filled your number from your footer!
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[100] group flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 hover:scale-110 hover:shadow-[#25D366]/50 transition-all duration-300 active:scale-95"
+        aria-label="Chat on WhatsApp"
+      >
+        {/* Pulse Ring Animation */}
+        <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-50 animate-ping"></span>
+        
+        {/* WhatsApp SVG Icon */}
+        <svg 
+          viewBox="0 0 24 24" 
+          fill="currentColor" 
+          className="w-8 h-8 md:w-9 md:h-9 relative z-10"
+        >
+          <path d="M12.031 0C5.383 0 0 5.383 0 12.031c0 2.658.857 5.12 2.361 7.147L.427 24l5.006-1.921A11.968 11.968 0 0012.031 24c6.648 0 12.031-5.383 12.031-12.031S18.679 0 12.031 0zm3.834 17.153c-.161.458-.934.872-1.353.916-.403.042-.924.133-3.149-.789-2.678-1.11-4.385-3.832-4.516-4.008-.131-.176-1.077-1.433-1.077-2.733s.68-1.954.915-2.204c.236-.251.512-.314.68-.314s.336 0 .487.008c.162.008.381-.061.597.458.216.519.743 1.815.808 1.946.066.131.109.284.026.449-.083.165-.126.268-.251.413-.126.145-.264.307-.378.414-.126.118-.259.248-.118.492.142.244.63 1.042 1.356 1.691.942.843 1.724 1.104 1.96 1.222.236.118.375.099.514-.06.14-.158.599-.698.761-.938.161-.24.321-.2.535-.118.214.083 1.352.637 1.583.753.232.116.386.173.442.27.056.097.056.561-.105 1.019z"/>
+        </svg>
+      </a>
     </footer>
   );
 }

@@ -71,8 +71,7 @@ export default function Projects() {
               Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-teal-400">Works.</span>
             </h2>
             <p className="text-slate-500 dark:text-slate-400 text-lg md:text-xl leading-relaxed">
-              A collection of scalable architectures, native applications, and digital platforms built for the modern web.
-            </p>
+           A portfolio of mission-critical software architectures, cross-platform applications, and digital infrastructures built to solve complex, real-world business challenges. </p>
           </div>
         </div>
 
@@ -98,8 +97,9 @@ export default function Projects() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
             {currentProjects.map((project, index) => {
-              // Auto-generate the URL slug from the title if projectLink is missing in DB
-              const projectUrl = project.projectLink || `/projects/${project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+              // We removed the fallback! 
+              // Now EVERY project strictly routes to its internal Case Study page.
+              const projectUrl = `/projects/${project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
               
               return (
               <Link 

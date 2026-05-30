@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import HireMeModal from "./HireMeModal";
 
 const navLinks = [
   { name: "Home", href: "/" }, // Changed to "/" so it works across all pages
@@ -16,6 +17,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isHireModalOpen, setIsHireModalOpen] = useState(false); // <-- Added state
 
   // Handle hydration for theme toggle
   useEffect(() => {
@@ -93,7 +95,7 @@ export default function Header() {
 
               {/* Hire Me CTA */}
               <button
-                onClick={() => {/* Trigger Modal State Here */}}
+                onClick={() => setIsHireModalOpen(true)}
                 className="px-6 py-2.5 rounded-full bg-indigo-600 text-white hover:bg-indigo-500 transition-all text-sm font-bold shadow-lg shadow-indigo-500/30 active:scale-95"
               >
                 Hire Me
@@ -148,6 +150,12 @@ export default function Header() {
           </Link>
         ))}
       </div>
+      
+      {/* Dynamic Booking Modal */}
+      <HireMeModal 
+        isOpen={isHireModalOpen} 
+        onClose={() => setIsHireModalOpen(false)} 
+      />
     </>
   );
 }

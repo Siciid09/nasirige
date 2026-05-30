@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, Github, Globe, Server, Shield } from "lucide-react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 // 1. Define the TypeScript interface for the detailed project
 interface ProjectDetails {
@@ -16,6 +18,7 @@ interface ProjectDetails {
   role?: string;
   timeline?: string;
   status?: string;
+  projectLink?: string; // <-- ADDED THIS LINE
   liveLink?: string;
   githubLink?: string;
   challenge?: string;
@@ -117,10 +120,13 @@ export default function ProjectView() {
 
   // --- MAIN DYNAMIC RENDER ---
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white selection:bg-indigo-500 selection:text-white pb-24">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white selection:bg-indigo-500 selection:text-white">
       
-      {/* Floating Back Button */}
-      <div className="fixed top-8 left-4 md:left-8 z-50 animate-fade-in-up">
+      {/* Global Header */}
+      <Header />
+
+      {/* Floating Back Button (Adjusted slightly lower to clear Header) */}
+      <div className="fixed top-24 left-4 md:left-8 z-50 animate-fade-in-up">
         <Link 
           href="/#portfolio"
           className="group flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/80 dark:bg-black/50 backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-lg hover:bg-indigo-600 hover:border-indigo-600 dark:hover:bg-indigo-600 hover:text-white transition-all duration-300"
@@ -144,7 +150,13 @@ export default function ProjectView() {
           </div>
           
           <div className="flex gap-4">
-            <a href={project?.liveLink} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold hover:scale-105 transition-transform shadow-xl">
+            {/* Dynamically reads projectLink or liveLink from Firebase */}
+            <a 
+              href={project?.projectLink || project?.liveLink || "#"} 
+              target={project?.projectLink || project?.liveLink ? "_blank" : "_self"} 
+              rel="noreferrer" 
+              className="flex items-center gap-2 px-6 py-3 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold hover:scale-105 transition-transform shadow-xl"
+            >
               Live Site <Globe className="w-4 h-4" />
             </a>
             <a href={project?.githubLink} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-indigo-500 transition-all font-bold">
@@ -239,6 +251,9 @@ export default function ProjectView() {
         </div>
 
       </main>
+      
+      {/* Global Footer */}
+      <Footer />
     </div>
   );
 }
