@@ -4,10 +4,12 @@ import React, { useState, useEffect } from "react";
 import { 
   LayoutDashboard, Briefcase, Award, Layers, Route,Zap, 
   Mail, CalendarCheck, LogOut, ShieldAlert, BarChart3,
-  Save, Loader2, PlusCircle, Trash2, Edit, Eye, User as UserIcon, X, FileText
+  Save, Loader2, PlusCircle, Trash2, Edit, Eye, User as UserIcon, X, FileText,
+  BookOpen
 } from "lucide-react";
 import { auth } from "@/lib/firebase";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut, User } from "firebase/auth";
+import BlogMan from "@/components/BlogMan";
 
 export default function AdminDashboard() {
   // Auth & General State
@@ -189,6 +191,7 @@ export default function AdminDashboard() {
     { id: 'profile', label: 'Profile', icon: <UserIcon className="w-5 h-5" /> },
     { id: 'projects', label: 'Projects', icon: <Briefcase className="w-5 h-5" /> },
     { id: 'cv', label: 'Resume / CV', icon: <FileText className="w-5 h-5" /> },
+    { id: 'blogs', label: 'Journal & Blogs', icon: <BookOpen className="w-5 h-5" /> },
     { id: 'certificates', label: 'Certificates', icon: <Award className="w-5 h-5" /> },
     { id: 'services', label: 'Services', icon: <Layers className="w-5 h-5" /> },
     { id: 'experience', label: 'Experience', icon: <Route className="w-5 h-5" /> },
@@ -364,6 +367,13 @@ export default function AdminDashboard() {
                   </button>
                 </div>
               </form>
+            </div>
+          )}
+
+          {/* TAB: JOURNAL / BLOGS */}
+          {activeTab === 'blogs' && (
+            <div className="animate-fade-in-up">
+              <BlogMan />
             </div>
           )}
 
