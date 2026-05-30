@@ -79,9 +79,17 @@ export default function AdminDashboard() {
     try {
       const res = await fetch(`/api/admin?col=${collectionName}`);
       const result = await res.json();
-      setData(result);
+      
+      // Safety check: Only set if it's a real array
+      if (Array.isArray(result)) {
+        setData(result);
+      } else {
+        console.error("API Error:", result.error);
+        setData([]); 
+      }
     } catch (error) {
       console.error("Fetch error:", error);
+      setData([]); 
     } finally {
       setIsLoading(false);
     }

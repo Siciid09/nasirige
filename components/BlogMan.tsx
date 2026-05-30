@@ -18,9 +18,15 @@ export default function BlogMan() {
     setIsLoading(true);
     try {
       const res = await fetch("/api/admin?col=blogs");
-      if (!res.ok) throw new Error("Failed to fetch blogs");
       const data = await res.json();
-      setBlogs(data);
+      
+      // Safety check: Only set if it's a real array to prevent .map crashes
+      if (Array.isArray(data)) {
+        setBlogs(data);
+      } else {
+        console.error("API Error:", data.error);
+        setBlogs([]); 
+      }
     } catch (error) {
       console.error("Error fetching blogs:", error);
     } finally {
