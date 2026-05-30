@@ -369,7 +369,36 @@ export default function AdminDashboard() {
                   {data && data.length > 0 ? "Re-upload / Change Link" : "Upload New CV Link (Google Drive, PDF URL)"}
                 </label>
                 <div className="flex flex-col md:flex-row gap-4">
-                  <input type="url" name="link" required placeholder="https://your-drive-link.com/cv.pdf" className="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 transition-colors" />
+                  <div className="flex w-full gap-2">
+                  {/* The visual URL input (auto-fills after upload) */}
+                  <input type="url" name="link" id="cvLinkInput" required placeholder="https://... (Paste URL or click Upload)" className="flex-1 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 transition-colors" />
+                  
+                  {/* The hidden file input */}
+                  <input type="file" id="cvFileUpload" accept=".pdf,image/*" className="hidden" onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const btn = document.getElementById('cvUploadText');
+                      const input = document.getElementById('cvLinkInput') as HTMLInputElement;
+                      if (btn) btn.innerText = "Uploading...";
+                      try {
+                        const { getStorage, ref, uploadBytes, getDownloadURL } = await import('firebase/storage');
+                        const storageRef = ref(getStorage(), `cv/${Date.now()}_${file.name}`);
+                        await uploadBytes(storageRef, file);
+                        input.value = await getDownloadURL(storageRef); // Auto-fill the input
+                        if (btn) btn.innerText = "Uploaded!";
+                      } catch (err) {
+                        console.error(err);
+                        if (btn) btn.innerText = "Failed";
+                      }
+                    }} 
+                  />
+
+                  {/* The visible Upload Button */}
+                  <button type="button" onClick={() => document.getElementById('cvFileUpload')?.click()} className="shrink-0 px-6 py-3 bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-300 dark:hover:bg-white/20 transition-colors flex items-center justify-center gap-2">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                    <span id="cvUploadText">Upload</span>
+                  </button>
+                </div>
                   <button type="submit" disabled={isSubmitting} className="shrink-0 px-8 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all">
                     {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : (data && data.length > 0 ? 'Update CV' : 'Save CV')}
                   </button>
