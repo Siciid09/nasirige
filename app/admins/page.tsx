@@ -268,7 +268,31 @@ export default function AdminDashboard() {
               <form onSubmit={(e) => handleSubmit(e, 'profile')} className="space-y-4">
                 <input type="text" name="name" placeholder="Full Name" className="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none" required />
                 <input type="text" name="titles" placeholder="Titles (Comma separated)" className="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none" required />
-                <input type="text" name="img" placeholder="Profile Image URL" className="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none" required />
+                <div className="flex w-full gap-2">
+                  <input type="url" name="img" id="profileImageInput" required placeholder="https://... (Paste URL or click Upload)" className="flex-1 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 transition-colors" />
+                  <input type="file" id="profileFileUpload" accept="image/*" className="hidden" onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const btn = document.getElementById('profileUploadText');
+                      const input = document.getElementById('profileImageInput') as HTMLInputElement;
+                      if (btn) btn.innerText = "Uploading...";
+                      try {
+                        const { getStorage, ref, uploadBytes, getDownloadURL } = await import('firebase/storage');
+                        const storageRef = ref(getStorage(), `profile/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '')}`);
+                        await uploadBytes(storageRef, file);
+                        input.value = await getDownloadURL(storageRef);
+                        if (btn) btn.innerText = "Uploaded!";
+                      } catch (err) {
+                        console.error(err);
+                        if (btn) btn.innerText = "Failed";
+                      }
+                    }} 
+                  />
+                  <button type="button" onClick={() => document.getElementById('profileFileUpload')?.click()} className="shrink-0 px-6 py-3 bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-300 dark:hover:bg-white/20 transition-colors flex items-center justify-center gap-2">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                    <span id="profileUploadText">Upload</span>
+                  </button>
+                </div>
                 <textarea name="bio" rows={4} placeholder="Bio..." className="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none resize-none" required></textarea>
                 <button type="submit" disabled={isSubmitting} className="px-8 py-4 bg-indigo-600 text-white font-bold rounded-xl">{isSubmitting ? 'Saving...' : 'Save Profile'}</button>
               </form>
@@ -304,8 +328,51 @@ export default function AdminDashboard() {
                     
                     {/* Assets */}
                     <input type="text" name="techStack" placeholder="Tech Stack (Comma Separated)" className="w-full md:col-span-2 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none" />
-                    <input type="text" name="img" required placeholder="Thumbnail Image URL" className="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none" />
-                    <input type="text" name="coverImage" placeholder="Hero Cover Image URL" className="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none" />
+                    <div className="flex w-full gap-2 md:col-span-2">
+                      <input type="url" name="img" id="projectThumbInput" required placeholder="Thumbnail Image: https://... (Paste URL or Upload)" className="flex-1 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 transition-colors" />
+                      <input type="file" id="projectThumbUpload" accept="image/*" className="hidden" onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          const btn = document.getElementById('projectThumbText');
+                          const input = document.getElementById('projectThumbInput') as HTMLInputElement;
+                          if (btn) btn.innerText = "Uploading...";
+                          try {
+                            const { getStorage, ref, uploadBytes, getDownloadURL } = await import('firebase/storage');
+                            const storageRef = ref(getStorage(), `projects/${Date.now()}_thumb_${file.name.replace(/[^a-zA-Z0-9.]/g, '')}`);
+                            await uploadBytes(storageRef, file);
+                            input.value = await getDownloadURL(storageRef);
+                            if (btn) btn.innerText = "Uploaded!";
+                          } catch (err) { console.error(err); if (btn) btn.innerText = "Failed"; }
+                        }} 
+                      />
+                      <button type="button" onClick={() => document.getElementById('projectThumbUpload')?.click()} className="shrink-0 px-6 py-3 bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-300 dark:hover:bg-white/20 transition-colors flex items-center justify-center gap-2">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                        <span id="projectThumbText">Upload Thumb</span>
+                      </button>
+                    </div>
+
+                    <div className="flex w-full gap-2 md:col-span-2">
+                      <input type="url" name="coverImage" id="projectCoverInput" placeholder="Hero Cover Image: https://... (Paste URL or Upload)" className="flex-1 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 transition-colors" />
+                      <input type="file" id="projectCoverUpload" accept="image/*" className="hidden" onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          const btn = document.getElementById('projectCoverText');
+                          const input = document.getElementById('projectCoverInput') as HTMLInputElement;
+                          if (btn) btn.innerText = "Uploading...";
+                          try {
+                            const { getStorage, ref, uploadBytes, getDownloadURL } = await import('firebase/storage');
+                            const storageRef = ref(getStorage(), `projects/${Date.now()}_cover_${file.name.replace(/[^a-zA-Z0-9.]/g, '')}`);
+                            await uploadBytes(storageRef, file);
+                            input.value = await getDownloadURL(storageRef);
+                            if (btn) btn.innerText = "Uploaded!";
+                          } catch (err) { console.error(err); if (btn) btn.innerText = "Failed"; }
+                        }} 
+                      />
+                      <button type="button" onClick={() => document.getElementById('projectCoverUpload')?.click()} className="shrink-0 px-6 py-3 bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-300 dark:hover:bg-white/20 transition-colors flex items-center justify-center gap-2">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                        <span id="projectCoverText">Upload Cover</span>
+                      </button>
+                    </div>
                     <textarea name="gallery" rows={2} placeholder="Gallery Image URLs (Comma Separated)" className="w-full md:col-span-2 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none resize-none"></textarea>
                   </div>
                   <button type="submit" disabled={isSubmitting} className="w-full py-4 bg-indigo-600 text-white font-bold rounded-xl">{isSubmitting ? 'Publishing...' : 'Publish Project'}</button>
@@ -424,7 +491,31 @@ export default function AdminDashboard() {
                 <input type="text" name="issuer" required placeholder="Issuer (e.g. Google)" className="w-full bg-slate-50 dark:bg-black/50 border rounded-xl px-4 py-3 outline-none" />
                 <input type="text" name="date" required placeholder="Year" className="w-full bg-slate-50 dark:bg-black/50 border rounded-xl px-4 py-3 outline-none" />
                 <input type="text" name="color" required placeholder="Tailwind Color (from-blue-500)" className="w-full bg-slate-50 dark:bg-black/50 border rounded-xl px-4 py-3 outline-none" />
-                <input type="text" name="img" required placeholder="Image URL" className="w-full md:col-span-2 bg-slate-50 dark:bg-black/50 border rounded-xl px-4 py-3 outline-none" />
+                <div className="flex w-full gap-2 md:col-span-2">
+                  <input type="url" name="img" id="certImageInput" required placeholder="https://... (Paste URL or click Upload)" className="flex-1 bg-slate-50 dark:bg-black/50 border rounded-xl px-4 py-3 outline-none focus:border-indigo-500 transition-colors" />
+                  <input type="file" id="certFileUpload" accept="image/*" className="hidden" onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const btn = document.getElementById('certUploadText');
+                      const input = document.getElementById('certImageInput') as HTMLInputElement;
+                      if (btn) btn.innerText = "Uploading...";
+                      try {
+                        const { getStorage, ref, uploadBytes, getDownloadURL } = await import('firebase/storage');
+                        const storageRef = ref(getStorage(), `certificates/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '')}`);
+                        await uploadBytes(storageRef, file);
+                        input.value = await getDownloadURL(storageRef);
+                        if (btn) btn.innerText = "Uploaded!";
+                      } catch (err) {
+                        console.error(err);
+                        if (btn) btn.innerText = "Failed";
+                      }
+                    }} 
+                  />
+                  <button type="button" onClick={() => document.getElementById('certFileUpload')?.click()} className="shrink-0 px-6 py-3 bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-300 dark:hover:bg-white/20 transition-colors flex items-center justify-center gap-2">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                    <span id="certUploadText">Upload</span>
+                  </button>
+                </div>
                 <input type="text" name="desc" required placeholder="Description" className="w-full md:col-span-2 bg-slate-50 dark:bg-black/50 border rounded-xl px-4 py-3 outline-none" />
                 <button type="submit" className="md:col-span-2 py-4 bg-indigo-600 text-white font-bold rounded-xl">Add Certificate</button>
               </form>
