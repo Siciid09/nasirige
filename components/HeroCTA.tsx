@@ -37,9 +37,10 @@ export default function HeroCTA() {
       {/* Dynamic Firebase CV Button */}
       <a 
         href={cvLink} 
-        target="_blank" 
+        target={cvLink !== "#" ? "_blank" : "_self"} 
         rel="noopener noreferrer" 
-        className={`group flex items-center gap-2 px-4 py-4 text-slate-600 dark:text-slate-300 font-bold transition-colors ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:text-indigo-600 dark:hover:text-indigo-400'}`}
+        onClick={(e) => { if (cvLink === "#" || isLoading) e.preventDefault(); }}
+        className={`group flex items-center gap-2 px-4 py-4 text-slate-600 dark:text-slate-300 font-bold transition-colors ${isLoading || cvLink === "#" ? 'opacity-50 cursor-not-allowed' : 'hover:text-indigo-600 dark:hover:text-indigo-400'}`}
       >
         {isLoading ? (
           <><Loader2 className="w-4 h-4 animate-spin" /> Loading...</>

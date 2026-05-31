@@ -78,9 +78,9 @@ export default function Expertise() {
             <div 
               key={index}
               className={`
-                group relative bg-slate-50 dark:bg-white/5 backdrop-blur-md rounded-3xl border border-slate-200 dark:border-white/10 
+                group relative bg-slate-50 dark:bg-[#111111] rounded-3xl border border-slate-200 dark:border-white/10 
                 overflow-hidden p-8 flex flex-col justify-between transition-all duration-300 hover:border-indigo-500/50 
-                hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/10
+                hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/10 transform-gpu
                 ${item.colSpan} ${item.rowSpan}
               `}
             >

@@ -86,8 +86,33 @@ export default function Home() {
       />
 
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        {/* Base Animated Glow Blobs */}
         <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-500/20 rounded-full mix-blend-screen blur-[120px] animate-[pulse_8s_ease-in-out_infinite]" />
         <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-500/20 rounded-full mix-blend-screen blur-[120px] animate-[pulse_8s_ease-in-out_infinite]" style={{ animationDelay: "2s" }} />
+        
+        {/* Modern Pulsing Architectural Grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 dark:opacity-20 animate-[pulse_10s_ease-in-out_infinite]" />
+
+        {/* Animated Floating Tech Elements (Hardware Accelerated) */}
+        {/* 1. Code Brackets */}
+        <div className="absolute top-[20%] left-[10%] text-indigo-500/30 dark:text-indigo-400/20 animate-[float_5s_ease-in-out_infinite] transform-gpu">
+          <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+        </div>
+        
+        {/* 2. Plus Node */}
+        <div className="absolute top-[60%] right-[15%] text-teal-500/30 dark:text-teal-400/20 animate-[float_7s_ease-in-out_infinite] transform-gpu" style={{ animationDelay: "1s" }}>
+          <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
+        </div>
+        
+        {/* 3. Dashed Geometry */}
+        <div className="absolute bottom-[20%] left-[25%] text-purple-500/30 dark:text-purple-400/20 animate-[float_6s_ease-in-out_infinite] transform-gpu" style={{ animationDelay: "2.5s" }}>
+           <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" strokeDasharray="4 4" /></svg>
+        </div>
+
+        {/* 4. Slow Spinning Data Node */}
+        <div className="absolute top-[30%] right-[30%] text-indigo-500/30 dark:text-indigo-400/20 animate-[float_8s_ease-in-out_infinite] transform-gpu" style={{ animationDelay: "1.5s" }}>
+           <svg className="w-6 h-6 animate-spin" style={{ animationDuration: "12s" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+        </div>
       </div>
 
       <Header />

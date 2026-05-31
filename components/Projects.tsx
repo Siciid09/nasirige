@@ -108,7 +108,7 @@ export default function Projects() {
                 className="group relative p-3 md:p-4 rounded-[2.5rem] bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/5 hover:border-indigo-500/30 transition-all duration-500 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 flex flex-col"
               >
                 {/* Image Container (Framed Design) */}
-                <div className="relative w-full aspect-[4/3] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden bg-slate-100 dark:bg-black mask-image-bottom">
+                <div className="relative w-full aspect-[4/3] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden bg-slate-100 dark:bg-black transform-gpu">
                   <img 
                     src={project.img} 
                     alt={project.title} 

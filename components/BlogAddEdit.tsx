@@ -40,8 +40,8 @@ export default function BlogAddEdit({ initialData, onSave, onCancel }: BlogAddEd
     featuredImage: "",
     category: "Engineering",
     tags: "",
-    author: "Mubarik Osman", // Defaulting to you
-    status: "draft",
+    author: "Mubarik Osman", 
+    status: "published", // <--- Defaults to published now!
     readingTime: "5 min read",
     seoTitle: "",
     seoDesc: "",
