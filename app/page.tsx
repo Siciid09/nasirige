@@ -85,42 +85,39 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Base Animated Glow Blobs */}
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-500/20 rounded-full mix-blend-screen blur-[120px] animate-[pulse_8s_ease-in-out_infinite]" />
-        <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-500/20 rounded-full mix-blend-screen blur-[120px] animate-[pulse_8s_ease-in-out_infinite]" style={{ animationDelay: "2s" }} />
-        
-        {/* Modern Pulsing Architectural Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 dark:opacity-20 animate-[pulse_10s_ease-in-out_infinite]" />
-
-        {/* Animated Floating Tech Elements (Hardware Accelerated) */}
-        {/* 1. Code Brackets */}
-        <div className="absolute top-[20%] left-[10%] text-indigo-500/30 dark:text-indigo-400/20 animate-[float_5s_ease-in-out_infinite] transform-gpu">
-          <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-        </div>
-        
-        {/* 2. Plus Node */}
-        <div className="absolute top-[60%] right-[15%] text-teal-500/30 dark:text-teal-400/20 animate-[float_7s_ease-in-out_infinite] transform-gpu" style={{ animationDelay: "1s" }}>
-          <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
-        </div>
-        
-        {/* 3. Dashed Geometry */}
-        <div className="absolute bottom-[20%] left-[25%] text-purple-500/30 dark:text-purple-400/20 animate-[float_6s_ease-in-out_infinite] transform-gpu" style={{ animationDelay: "2.5s" }}>
-           <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" strokeDasharray="4 4" /></svg>
-        </div>
-
-        {/* 4. Slow Spinning Data Node */}
-        <div className="absolute top-[30%] right-[30%] text-indigo-500/30 dark:text-indigo-400/20 animate-[float_8s_ease-in-out_infinite] transform-gpu" style={{ animationDelay: "1.5s" }}>
-           <svg className="w-6 h-6 animate-spin" style={{ animationDuration: "12s" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-        </div>
-      </div>
-
       <Header />
 
       <main className="relative z-10 w-full overflow-x-hidden">
         {/* Hero Section */}
-        <section id="home" className="min-h-screen flex items-center justify-center pt-20 pb-12 lg:pt-32">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-16 lg:gap-8 w-full">
+        <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 pb-12 lg:pt-32 overflow-hidden">
+          
+          {/* ANIMATED BACKGROUND - MOVED HERE & CHANGED TO ABSOLUTE */}
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-500/20 rounded-full mix-blend-screen blur-[120px] animate-[pulse_8s_ease-in-out_infinite]" />
+            <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-500/20 rounded-full mix-blend-screen blur-[120px] animate-[pulse_8s_ease-in-out_infinite]" style={{ animationDelay: "2s" }} />
+            
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 dark:opacity-20 animate-[pulse_10s_ease-in-out_infinite]" />
+
+            {/* Scaled down icons for mobile to prevent overcrowding */}
+            <div className="absolute top-[20%] left-[10%] text-indigo-500/30 dark:text-indigo-400/20 animate-[float_5s_ease-in-out_infinite] transform-gpu">
+              <svg className="w-8 h-8 md:w-12 md:h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+            </div>
+            
+            <div className="absolute top-[60%] right-[15%] text-teal-500/30 dark:text-teal-400/20 animate-[float_7s_ease-in-out_infinite] transform-gpu" style={{ animationDelay: "1s" }}>
+              <svg className="w-6 h-6 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
+            </div>
+            
+            <div className="absolute bottom-[20%] left-[25%] text-purple-500/30 dark:text-purple-400/20 animate-[float_6s_ease-in-out_infinite] transform-gpu" style={{ animationDelay: "2.5s" }}>
+               <svg className="w-5 h-5 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" strokeDasharray="4 4" /></svg>
+            </div>
+
+            <div className="absolute top-[30%] right-[30%] text-indigo-500/30 dark:text-indigo-400/20 animate-[float_8s_ease-in-out_infinite] transform-gpu" style={{ animationDelay: "1.5s" }}>
+               <svg className="w-4 h-4 md:w-6 md:h-6 animate-spin" style={{ animationDuration: "12s" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+            </div>
+          </div>
+          
+          {/* Main Content Container (z-10 ensures it stays above the new absolute background) */}
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-16 lg:gap-8 w-full">
             <div className="w-full lg:w-1/2 text-center lg:text-left pt-12 lg:pt-0">
               <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-bold mb-8 border border-indigo-100 dark:border-indigo-500/20 shadow-sm">
                 <span className="relative flex h-2 w-2">
