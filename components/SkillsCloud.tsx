@@ -66,16 +66,14 @@ const skillsData = [
 export default function SkillsCloud() {
   const [activeCategory, setActiveCategory] = useState("All");
 
-  // Filter skills based on the active category state
   const filteredSkills = skillsData.filter((skill) => 
     activeCategory === "All" ? true : skill.cat === activeCategory
   );
 
   return (
-    <section id="skills" className="py-24 relative z-10 bg-slate-50 dark:bg-[#050505]">
+    <section id="skills" className="py-24 relative z-10 bg-slate-50 dark:bg-[#050505] overflow-hidden isolate">
       <div className="max-w-6xl mx-auto px-4 text-center">
         
-        {/* Header */}
         <h2 className="text-3xl md:text-5xl font-bold mb-6 text-slate-900 dark:text-white tracking-tight">
           The <span className="text-indigo-600 dark:text-indigo-500">Arsenal</span>
         </h2>
@@ -83,7 +81,6 @@ export default function SkillsCloud() {
           A comprehensive toolkit allowing for total control over the development lifecycle.
         </p>
 
-        {/* Filter Buttons */}
         <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
           {categories.map((category) => (
             <button
@@ -100,14 +97,12 @@ export default function SkillsCloud() {
           ))}
         </div>
         
-        {/* Skills Grid */}
-        <div className="flex flex-wrap justify-center gap-3 md:gap-4 transition-all duration-500 min-h-[300px] content-start">
+        <div className="flex flex-wrap justify-center gap-3 md:gap-4 min-h-[300px] content-start">
           {filteredSkills.map((skill, index) => (
             <div 
               key={`${skill.name}-${index}`} 
-              className="group flex items-center gap-2.5 px-5 py-2.5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-full text-sm font-bold text-slate-700 dark:text-slate-200 hover:border-indigo-500 hover:shadow-lg hover:shadow-indigo-500/10 transition-all duration-300 cursor-default animate-fade-in-up"
+              className="group flex items-center gap-2.5 px-5 py-2.5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-full text-sm font-bold text-slate-700 dark:text-slate-200 hover:border-indigo-500 hover:shadow-lg hover:shadow-indigo-500/10 transition-colors duration-300 cursor-default transform-gpu will-change-transform animate-fade-in-up"
             >
-              {/* Wrapping the icon in a slight scale animation on hover */}
               <span className="transition-transform duration-300 group-hover:scale-125">
                 {skill.icon}
               </span>

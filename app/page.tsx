@@ -91,14 +91,17 @@ export default function Home() {
         {/* Hero Section */}
         <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 pb-12 lg:pt-32 overflow-hidden">
           
-          {/* ANIMATED BACKGROUND - MOVED HERE & CHANGED TO ABSOLUTE */}
+          {/* ANIMATED BACKGROUND */}
           <div className="absolute inset-0 z-0 pointer-events-none">
             
-            {/* FIX 1: Removed mix-blend-screen and added transform-gpu to prevent mobile GPU crashes */}
             <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-[120px] animate-[pulse_8s_ease-in-out_infinite] transform-gpu" />
             <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-500/20 rounded-full blur-[120px] animate-[pulse_8s_ease-in-out_infinite] transform-gpu" style={{ animationDelay: "2s" }} />
             
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 dark:opacity-20 animate-[pulse_10s_ease-in-out_infinite]" />
+            {/* FIX: Larger grid on mobile, animation disabled on mobile, forced to GPU */}
+            <div 
+              className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:60px_60px] md:bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 dark:opacity-20 md:animate-[pulse_10s_ease-in-out_infinite] transform-gpu" 
+              style={{ WebkitTransform: 'translate3d(0,0,0)' }} 
+            />
 
             {/* Scaled down icons for mobile to prevent overcrowding */}
             <div className="absolute top-[20%] left-[10%] text-indigo-500/30 dark:text-indigo-400/20 animate-[float_5s_ease-in-out_infinite] transform-gpu">
@@ -118,8 +121,7 @@ export default function Home() {
             </div>
           </div>
           
-          {/* Main Content Container */}
-          {/* FIX 2: Added "isolate" class to create a strict stacking context */}
+          {/* Main Content Container with 'isolate' to protect stacking context */}
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-16 lg:gap-8 w-full isolate">
             <div className="w-full lg:w-1/2 text-center lg:text-left pt-12 lg:pt-0">
               <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-bold mb-8 border border-indigo-100 dark:border-indigo-500/20 shadow-sm">
@@ -144,7 +146,6 @@ export default function Home() {
                 I don't just write code; I solve complex business problems. By fusing <strong className="text-slate-900 dark:text-slate-200">Data Intelligence</strong> with <strong className="text-slate-900 dark:text-slate-200">High-End Design</strong>, I create scalable software that drives real growth.
               </p>
               
-              {/* --- 3. DYNAMIC HERO CTA INJECTED HERE --- */}
               <HeroCTA />
 
             </div>
@@ -162,7 +163,7 @@ export default function Home() {
                   />
                   <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                     <p className="text-white font-bold text-xl mb-1">Mubarik Osman</p>
-                    <p className="text-indigo-400 text-xs font-mono uppercase tracking-wider">Founder,  Hiigsi Tech</p>
+                    <p className="text-indigo-400 text-xs font-mono uppercase tracking-wider">Founder, Hiigsi Tech</p>
                   </div>
                 </div>
               </div>
@@ -170,19 +171,16 @@ export default function Home() {
           </div>
         </section>
 
-        {/* The Updated Super Modern Page Flow */}
+        {/* The Page Flow */}
         <Stats />
-        
-        <Services />       {/* 1. Strategic Solutions */}
-        <SkillsCloud />    {/* 2. The Arsenal */}
-            {/* 3. Engineering Workflow */}
-        <Projects />       {/* 4. Projects */}
+        <Services />
+        <SkillsCloud />
+        <Projects />
         <Credentials />
-         <Workflow />      {/* 5. Verified Credentials */}
-        <ClientStories />  {/* 6. Client Stories */}
-        <ConnectHub />     {/* 7. Connect Hub */}
-        
-        <Contact />        {/* 8. Contact Form */}
+        <Workflow />
+        <ClientStories />
+        <ConnectHub />
+        <Contact />
         
       </main>
 
