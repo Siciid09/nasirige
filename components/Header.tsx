@@ -6,6 +6,7 @@ import HireMeModal from "./HireMeModal";
 
 const navLinks = [
   { name: "Home", href: "/" },
+  { name: "About Me", href: "/about" },
   { name: "Services", href: "/#services" },
   { name: "Expertise", href: "/#skills" },
   { name: "Projects", href: "/#portfolio" },
