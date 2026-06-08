@@ -68,7 +68,7 @@ export default function AboutMeClient() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
   return (
-    <div ref={containerRef} className="relative min-h-screen bg-[#030303] text-slate-200 font-sans selection:bg-indigo-500 selection:text-white overflow-x-hidden">
+    <div ref={containerRef} className="relative min-h-screen bg-slate-50 dark:bg-[#030303] text-slate-800 dark:text-slate-200 font-sans selection:bg-indigo-500 selection:text-white overflow-x-hidden transition-colors duration-300">
       <Header />
       
       {/* --- SUPER MODERN ANIMATED BACKGROUND --- */}
@@ -125,7 +125,7 @@ export default function AboutMeClient() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
-            className="text-6xl sm:text-8xl md:text-9xl lg:text-[11rem] font-black tracking-tighter leading-[0.85] text-white mb-12"
+            className="text-6xl sm:text-8xl md:text-9xl lg:text-[11rem] font-black tracking-tighter leading-[0.85] text-slate-900 dark:text-white mb-12 transition-colors"
           >
             BUILDING<br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-teal-400">
@@ -148,7 +148,7 @@ export default function AboutMeClient() {
       </motion.section>
 
       {/* --- THE DEEP READ (THE MANIFESTO) --- */}
-      <section className="relative z-10 py-32 px-6 bg-[#020202]/50 border-y border-white/[0.03] backdrop-blur-sm overflow-hidden">
+      <section className="relative z-10 py-32 px-6 bg-white/40 dark:bg-[#020202]/50 border-y border-slate-200 dark:border-white/[0.03] backdrop-blur-sm overflow-hidden transition-colors">
         
         {/* --- ANIMATED MANIFESTO BACKGROUND ELEMENTS --- */}
         <div className="absolute inset-0 z-0 pointer-events-none">
@@ -171,10 +171,10 @@ export default function AboutMeClient() {
 
         <div className="relative z-10 max-w-4xl mx-auto">
           <div className="mb-24 flex flex-col md:flex-row md:items-end gap-6">
-             <span className="text-8xl md:text-9xl font-black text-white/5 tracking-tighter leading-none select-none">01</span>
+             <span className="text-8xl md:text-9xl font-black text-slate-200 dark:text-white/5 tracking-tighter leading-none select-none transition-colors">01</span>
              <div>
                 <h2 className="text-sm tracking-[0.3em] uppercase text-indigo-400 font-bold mb-4 font-mono">The Mind</h2>
-                <h3 className="text-4xl md:text-5xl font-bold text-white tracking-tight">Engineering with Intent.</h3>
+                <h3 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight transition-colors">Engineering with Intent.</h3>
              </div>
           </div>
           
@@ -186,7 +186,7 @@ export default function AboutMeClient() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="text-lg md:text-[22px] font-normal leading-[1.9] text-slate-300/90 tracking-[-0.01em]"
+                className="text-lg md:text-[22px] font-normal leading-[1.9] text-slate-700 dark:text-slate-300/90 tracking-[-0.01em] transition-colors"
               >
                 {/* Elegant Drop Cap for the very first paragraph */}
                 {index === 0 ? (
@@ -209,10 +209,10 @@ export default function AboutMeClient() {
       <section className="relative z-10 py-32 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="mb-24 flex flex-col md:flex-row md:items-end gap-6">
-             <span className="text-8xl md:text-9xl font-black text-white/5 tracking-tighter leading-none select-none">02</span>
+             <span className="text-8xl md:text-9xl font-black text-slate-200 dark:text-white/5 tracking-tighter leading-none select-none transition-colors">02</span>
              <div>
                 <h2 className="text-sm tracking-[0.3em] uppercase text-teal-400 font-bold mb-4 font-mono">The Arsenal</h2>
-                <h3 className="text-4xl md:text-5xl font-bold text-white tracking-tight">Digital Tooling.</h3>
+                <h3 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight transition-colors">Digital Tooling.</h3>
              </div>
           </div>
           
@@ -227,17 +227,17 @@ export default function AboutMeClient() {
               <motion.div 
                 key={idx}
                 variants={fadeUpVariant} 
-                className="relative group p-10 rounded-[2.5rem] bg-gradient-to-b from-white/[0.03] to-transparent border border-white/10 hover:border-white/20 transition-all duration-700 overflow-hidden"
+                className="relative group p-10 rounded-[2.5rem] bg-white dark:bg-gradient-to-b dark:from-white/[0.03] dark:to-transparent border border-slate-200 dark:border-white/10 hover:border-indigo-500/30 dark:hover:border-white/20 transition-all duration-700 overflow-hidden shadow-sm dark:shadow-none hover:shadow-xl dark:hover:shadow-none"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 <div className="relative z-10">
                   <div className={`w-14 h-14 rounded-2xl bg-black/50 border border-white/5 flex items-center justify-center mb-10 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 ${tech.color}`}>
                     {tech.icon}
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-8 tracking-tight">{tech.category}</h3>
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight transition-colors">{tech.category}</h3>
                   <div className="flex flex-wrap gap-2.5">
                     {tech.skills.map((skill, sIdx) => (
-                      <span key={sIdx} className="px-4 py-2 text-sm font-mono rounded-xl bg-black/60 border border-white/5 text-slate-400 group-hover:text-slate-300 transition-colors">
+                      <span key={sIdx} className="px-4 py-2 text-sm font-mono rounded-xl bg-slate-50 dark:bg-black/60 border border-slate-200 dark:border-white/5 text-slate-600 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-slate-300 transition-colors">
                         {skill}
                       </span>
                     ))}
@@ -250,13 +250,13 @@ export default function AboutMeClient() {
       </section>
 
       {/* --- THE CRUCIBLE (TRACK RECORD) --- */}
-      <section className="relative z-10 py-32 px-6 bg-[#020202]/50 border-t border-white/[0.03]">
+      <section className="relative z-10 py-32 px-6 bg-white/40 dark:bg-[#020202]/50 border-t border-slate-200 dark:border-white/[0.03] transition-colors">
         <div className="max-w-5xl mx-auto">
           <div className="mb-24 flex flex-col md:flex-row md:items-end gap-6">
-             <span className="text-8xl md:text-9xl font-black text-white/5 tracking-tighter leading-none select-none">03</span>
+             <span className="text-8xl md:text-9xl font-black text-slate-200 dark:text-white/5 tracking-tighter leading-none select-none transition-colors">03</span>
              <div>
                 <h2 className="text-sm tracking-[0.3em] uppercase text-purple-400 font-bold mb-4 font-mono">The Crucible</h2>
-                <h3 className="text-4xl md:text-5xl font-bold text-white tracking-tight">Execution.</h3>
+                <h3 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight transition-colors">Execution.</h3>
              </div>
           </div>
           
@@ -268,13 +268,13 @@ export default function AboutMeClient() {
               { year: "2024", title: "Ethiopia DevFest", desc: "Built a GCP serverless application designed to handle sudden, massive algorithmic stress tests." }
             ].map((item, idx) => (
               <motion.div key={idx} variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} className="relative flex items-start gap-8 group">
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-[#050505] border-2 border-white/10 shrink-0 z-10 group-hover:border-indigo-400 transition-colors duration-500 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white dark:bg-[#050505] border-2 border-slate-200 dark:border-white/10 shrink-0 z-10 group-hover:border-indigo-400 transition-colors duration-500 shadow-sm dark:shadow-[0_0_20px_rgba(0,0,0,0.5)]">
                   <Trophy className="w-6 h-6 text-slate-500 group-hover:text-indigo-400 transition-colors duration-500" />
                 </div>
                 <div className="pt-2 pb-10">
                   <span className="inline-block px-3 py-1 text-xs font-bold font-mono text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 rounded-md mb-4">{item.year}</span>
-                  <h4 className="text-2xl font-bold text-white mb-3 tracking-tight">{item.title}</h4>
-                  <p className="text-slate-400 text-lg leading-relaxed font-light">{item.desc}</p>
+                  <h4 className="text-2xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight transition-colors">{item.title}</h4>
+                  <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed font-light transition-colors">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
