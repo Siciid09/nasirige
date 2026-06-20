@@ -13,6 +13,7 @@ import ConnectHub from "@/components/ConnectHub";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import HeroCTA from "@/components/HeroCTA";
+import AchievementsShowcase from "@/components/Achievements";
 
 // --- 1. PREMIUM NEXT.JS SEO METADATA ---
 export const metadata: Metadata = {
@@ -178,6 +179,7 @@ export default function Home() {
         <Projects />
         <Credentials />
         <Workflow />
+        <AchievementsShowcase />
         <ClientStories />
         <ConnectHub />
         <Contact />
