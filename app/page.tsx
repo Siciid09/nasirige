@@ -178,8 +178,9 @@ export default function Home() {
         <SkillsCloud />
         <Projects />
         <Credentials />
-        <Workflow />
         <AchievementsShowcase />
+        <Workflow />
+        
         <ClientStories />
         <ConnectHub />
         <Contact />

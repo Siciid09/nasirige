@@ -5,11 +5,13 @@ import {
   LayoutDashboard, Briefcase, Award, Layers, Route,Zap, 
   Mail, CalendarCheck, LogOut, ShieldAlert, BarChart3,
   Save, Loader2, PlusCircle, Trash2, Edit, Eye, User as UserIcon, X, FileText,
-  BookOpen
+  BookOpen,
+  Trophy
 } from "lucide-react";
 import { auth } from "@/lib/firebase";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut, User } from "firebase/auth";
 import BlogMan from "@/components/BlogMan";
+import AchievementAddEdit from "@/components/AchievementAddEdit";
 
 export default function AdminDashboard() {
   // Auth & General State
@@ -201,6 +203,7 @@ export default function AdminDashboard() {
     { id: 'cv', label: 'Resume / CV', icon: <FileText className="w-5 h-5" /> },
     { id: 'blogs', label: 'Journal & Blogs', icon: <BookOpen className="w-5 h-5" /> },
     { id: 'certificates', label: 'Certificates', icon: <Award className="w-5 h-5" /> },
+    { id: 'achievements', label: 'Achievements', icon: <Trophy className="w-5 h-5" /> },
     { id: 'services', label: 'Services', icon: <Layers className="w-5 h-5" /> },
     { id: 'experience', label: 'Experience', icon: <Route className="w-5 h-5" /> },
     { id: 'skills', label: 'Skills', icon: <Zap className="w-5 h-5" /> },
@@ -478,6 +481,28 @@ export default function AdminDashboard() {
           {activeTab === 'blogs' && (
             <div className="animate-fade-in-up">
               <BlogMan />
+            </div>
+          )}
+
+          {/* TAB: ACHIEVEMENTS */}
+          {activeTab === 'achievements' && (
+            <div className="animate-fade-in-up">
+              <AchievementAddEdit 
+                onSave={async (formData) => {
+                  try {
+                    await fetch("/api/admin", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ collectionName: 'achievements', data: formData }),
+                    });
+                    alert("Achievement Published Successfully!");
+                    setActiveTab('overview');
+                  } catch (err) {
+                    alert("Error saving achievement.");
+                  }
+                }}
+                onCancel={() => setActiveTab('overview')}
+              />
             </div>
           )}
 
